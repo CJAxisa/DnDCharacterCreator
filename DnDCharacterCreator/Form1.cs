@@ -24,6 +24,7 @@ namespace DnDCharacterCreator
 
         private bool hasRaceError;
         private bool hasClassError;
+        private bool hasHPBeenRolled = false;
 
         #endregion
         public Form1()
@@ -180,6 +181,15 @@ namespace DnDCharacterCreator
             lbl_Class_Error.Visible = hasClassError;
         }
 
+
+        public void ResetHP()
+        {
+            currentCharacter.HitPoints = 0;
+            lbl_HP_roll.Text = "0";
+            lbl_Total_HP.Text = "0";
+            btn_HP_Reroll.Text = "Roll";
+            hasHPBeenRolled= false;
+        }
         #endregion
 
 
@@ -264,7 +274,11 @@ namespace DnDCharacterCreator
 
         private void btn_HP_Reroll_Click(object sender, EventArgs e)
         {
+            HP_Roll();
+        }
 
+        private void HP_Roll()
+        {
             //Depending on what class we are, we need to roll different dice
             if (lbl_Class_hit_dice_value.Text.Equals("1d6"))
             {
@@ -285,6 +299,11 @@ namespace DnDCharacterCreator
             //Add CON mod and update total HP label
             currentCharacter.HitPoints += int.Parse(lbl_HP_CON_Mod.Text);
             lbl_Total_HP.Text = currentCharacter.HitPoints.ToString();
+
+
+            btn_HP_Reroll.Text = "Reroll";
+            hasHPBeenRolled = true;
+
         }
 
         private void btn_Gold_Reroll_Click(object sender, EventArgs e)
@@ -453,36 +472,65 @@ namespace DnDCharacterCreator
         {
             CharacterInfo.Class newClass = (CharacterInfo.Class)comboBox_Class.SelectedIndex +1;
 
+            // For each class, update text and check if we need to reset HP due to a new HitDice
             switch (newClass)
             {
                 case CharacterInfo.Class.None:
                     break;
                 case CharacterInfo.Class.Bard:
-                    lbl_Class_hit_dice_value.Text = "1d6";
+                    if(lbl_Class_hit_dice_value.Text != "1d6")
+                    {
+                        lbl_Class_hit_dice_value.Text = "1d6";
+                        ResetHP();
+                    }
                     lbl_Class_Prime_Stat_Value.Text = "CHA";
                     break;
                 case CharacterInfo.Class.Cleric:
-                    lbl_Class_hit_dice_value.Text = "1d6";
+                    if (lbl_Class_hit_dice_value.Text != "1d6")
+                    {
+                        lbl_Class_hit_dice_value.Text = "1d6";
+                        ResetHP();
+                    }
                     lbl_Class_Prime_Stat_Value.Text = "WIS";
                     break;
                 case CharacterInfo.Class.Druid:
-                    lbl_Class_hit_dice_value.Text = "1d6";
+                    if (lbl_Class_hit_dice_value.Text != "1d6")
+                    {
+                        lbl_Class_hit_dice_value.Text = "1d6";
+                        ResetHP();
+                    }
                     lbl_Class_Prime_Stat_Value.Text = "WIS";
                     break;
                 case CharacterInfo.Class.Fighter:
-                    lbl_Class_hit_dice_value.Text = "1d8";
+                    if (lbl_Class_hit_dice_value.Text != "1d8")
+                    {
+                        lbl_Class_hit_dice_value.Text = "1d8";
+                        ResetHP();
+                    }
                     lbl_Class_Prime_Stat_Value.Text = "STR";
                     break;
                 case CharacterInfo.Class.Ranger:
-                    lbl_Class_hit_dice_value.Text = "1d8";
+                    if (lbl_Class_hit_dice_value.Text != "1d8")
+                    {
+                        lbl_Class_hit_dice_value.Text = "1d8";
+                        ResetHP();
+                    }
                     lbl_Class_Prime_Stat_Value.Text = "STR";
                     break;
                 case CharacterInfo.Class.Thief:
-                    lbl_Class_hit_dice_value.Text = "1d4";
+                    if (lbl_Class_hit_dice_value.Text != "1d4")
+                    {
+                        lbl_Class_hit_dice_value.Text = "1d4";
+                        ResetHP();
+                    }
                     lbl_Class_Prime_Stat_Value.Text = "DEX";
                     break;
                 case CharacterInfo.Class.Wizard:
-                    lbl_Class_hit_dice_value.Text = "1d4";
+                    if (lbl_Class_hit_dice_value.Text != "1d4")
+                    {
+                        lbl_Class_hit_dice_value.Text = "1d4";
+                        ResetHP();
+                    }
                     lbl_Class_Prime_Stat_Value.Text = "INT";
                     break;
                 default:
