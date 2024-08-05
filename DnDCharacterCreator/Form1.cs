@@ -443,8 +443,9 @@ namespace DnDCharacterCreator
             }
 
             CheckForRaceError(newRace);
-            CheckForClassError(currentCharacter.charClass);
             currentCharacter.charRace = newRace;
+            CheckForClassError(currentCharacter.charClass);
+
 
         }
 
