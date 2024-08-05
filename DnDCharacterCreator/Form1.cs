@@ -14,9 +14,17 @@ namespace DnDCharacterCreator
 {
     public partial class Form1 : Form
     {
+
+        #region Variables
+
         Random RNG;
 
         CharacterInfo currentCharacter;
+
+        private bool hasRaceError;
+        private bool hasClassError;
+
+        #endregion
         public Form1()
         {
             InitializeComponent();
@@ -182,8 +190,70 @@ namespace DnDCharacterCreator
             }
         }
 
+
+        private void comboBox_Race_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CharacterInfo.Race newRace = (CharacterInfo.Race)comboBox_Race.SelectedIndex+1;
+
+            //if Race is the same as old race, no update needed
+            if (newRace == currentCharacter.charRace)
+                return;
+
+            switch (newRace)
+            {
+                case CharacterInfo.Race.Dwarf:
+                    lbl_Race_Minstat.Text = "CON 9";
+                    lbl_Race_Modifier.Text = "-1 CHA, +1 CON";
+                    lbl_Race_Ability.Text = "Infravision";
+                    lbl_Race_Allowed_Classes.Text = "Bard, Cleric, Fighter, Thief";
+                    currentCharacter.STR_Mod = 0;
+                    currentCharacter.INT_Mod = 0;
+                    currentCharacter.WIS_Mod = 0;
+                    currentCharacter.DEX_Mod = 0;
+                    currentCharacter.CON_Mod = 1;
+                    currentCharacter.CHA_Mod = -1;
+
+
+
+                    break;
+                case CharacterInfo.Race.Elf:
+                    lbl_Race_Minstat.Text = "INT 9";
+                    lbl_Race_Modifier.Text = "-1 CON, +1 DEX";
+                    lbl_Race_Ability.Text = "Detect Secret Doors";
+                    lbl_Race_Allowed_Classes.Text = "Cleric, Druid, Fighter, Ranger, Thief, Wizard";
+                    break;
+                case CharacterInfo.Race.Gnome:
+                    lbl_Race_Minstat.Text = "CON 9, INT 9";
+                    lbl_Race_Modifier.Text = "None";
+                    lbl_Race_Ability.Text = "Defensive Bonus";
+                    lbl_Race_Allowed_Classes.Text = "Cleric, Fighter, Thief, Wizard";
+                    break;
+                case CharacterInfo.Race.Halfling:
+                    lbl_Race_Minstat.Text = "CON 9, DEX 9";
+                    lbl_Race_Modifier.Text = "+1 DEX, -1 STR";
+                    lbl_Race_Ability.Text = "Initiative Bonus";
+                    lbl_Race_Allowed_Classes.Text = "Bard, Druid, Fighter, Thief";
+                    break;
+                case CharacterInfo.Race.Human:
+                    lbl_Race_Minstat.Text = "None";
+                    lbl_Race_Modifier.Text = "None";
+                    lbl_Race_Ability.Text = "None";
+                    lbl_Race_Allowed_Classes.Text = "Bard, Cleric, Druid, Fighter, Ranger, Thief, Wizard";
+                    break;
+                default:
+                    break;
+            }
+
+
+            currentCharacter.charRace = newRace;
+
+        }
+
+        private void comboBox_Class_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
         #endregion
-
-
     }
 }

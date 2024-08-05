@@ -91,6 +91,8 @@
             this.lbl_Class_Prime_Stat_Value = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.lbl_Total_HP = new System.Windows.Forms.Label();
+            this.lbl_Race_Error = new System.Windows.Forms.Label();
+            this.lbl_Class_Error = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -426,9 +428,9 @@
             this.tableLayoutPanel2.ColumnCount = 5;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.42857F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.57143F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 115F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 206F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 102F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 219F));
             this.tableLayoutPanel2.Controls.Add(this.lbl_Race_Allowed_Classes, 4, 1);
             this.tableLayoutPanel2.Controls.Add(this.lbl_Race_Ability, 3, 1);
             this.tableLayoutPanel2.Controls.Add(this.lbl_Race_Modifier, 2, 1);
@@ -439,12 +441,12 @@
             this.tableLayoutPanel2.Controls.Add(this.label43, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.comboBox_Race, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.label4, 3, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(33, 423);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(33, 409);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(638, 86);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35.84906F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 64.15094F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(676, 109);
             this.tableLayoutPanel2.TabIndex = 5;
             // 
             // label43
@@ -462,7 +464,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
-            this.label1.Location = new System.Drawing.Point(110, 3);
+            this.label1.Location = new System.Drawing.Point(119, 3);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(76, 20);
             this.label1.TabIndex = 48;
@@ -473,7 +475,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
-            this.label3.Location = new System.Drawing.Point(230, 3);
+            this.label3.Location = new System.Drawing.Point(248, 3);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(73, 20);
             this.label3.TabIndex = 49;
@@ -484,7 +486,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
-            this.label4.Location = new System.Drawing.Point(313, 3);
+            this.label4.Location = new System.Drawing.Point(351, 3);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(57, 20);
             this.label4.TabIndex = 50;
@@ -495,7 +497,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
-            this.label6.Location = new System.Drawing.Point(431, 3);
+            this.label6.Location = new System.Drawing.Point(456, 3);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(139, 20);
             this.label6.TabIndex = 51;
@@ -505,10 +507,17 @@
             // comboBox_Race
             // 
             this.comboBox_Race.FormattingEnabled = true;
-            this.comboBox_Race.Location = new System.Drawing.Point(6, 47);
+            this.comboBox_Race.Items.AddRange(new object[] {
+            "Dwarf",
+            "Elf",
+            "Gnome",
+            "Halfling",
+            "Human"});
+            this.comboBox_Race.Location = new System.Drawing.Point(6, 44);
             this.comboBox_Race.Name = "comboBox_Race";
-            this.comboBox_Race.Size = new System.Drawing.Size(95, 21);
+            this.comboBox_Race.Size = new System.Drawing.Size(104, 21);
             this.comboBox_Race.TabIndex = 52;
+            this.comboBox_Race.SelectedIndexChanged += new System.EventHandler(this.comboBox_Race_SelectedIndexChanged);
             // 
             // btn_STR_Reroll
             // 
@@ -645,6 +654,7 @@
             this.comboBox_Class.Name = "comboBox_Class";
             this.comboBox_Class.Size = new System.Drawing.Size(95, 21);
             this.comboBox_Class.TabIndex = 52;
+            this.comboBox_Class.SelectedIndexChanged += new System.EventHandler(this.comboBox_Class_SelectedIndexChanged);
             // 
             // tableLayoutPanel4
             // 
@@ -795,7 +805,7 @@
             this.lbl_Race_Minstat.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbl_Race_Minstat.AutoSize = true;
             this.lbl_Race_Minstat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lbl_Race_Minstat.Location = new System.Drawing.Point(152, 44);
+            this.lbl_Race_Minstat.Location = new System.Drawing.Point(165, 41);
             this.lbl_Race_Minstat.Name = "lbl_Race_Minstat";
             this.lbl_Race_Minstat.Size = new System.Drawing.Size(27, 20);
             this.lbl_Race_Minstat.TabIndex = 53;
@@ -806,7 +816,7 @@
             this.lbl_Race_Modifier.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbl_Race_Modifier.AutoSize = true;
             this.lbl_Race_Modifier.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lbl_Race_Modifier.Location = new System.Drawing.Point(253, 44);
+            this.lbl_Race_Modifier.Location = new System.Drawing.Point(281, 41);
             this.lbl_Race_Modifier.Name = "lbl_Race_Modifier";
             this.lbl_Race_Modifier.Size = new System.Drawing.Size(27, 20);
             this.lbl_Race_Modifier.TabIndex = 54;
@@ -817,7 +827,7 @@
             this.lbl_Race_Ability.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbl_Race_Ability.AutoSize = true;
             this.lbl_Race_Ability.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lbl_Race_Ability.Location = new System.Drawing.Point(354, 44);
+            this.lbl_Race_Ability.Location = new System.Drawing.Point(385, 41);
             this.lbl_Race_Ability.Name = "lbl_Race_Ability";
             this.lbl_Race_Ability.Size = new System.Drawing.Size(27, 20);
             this.lbl_Race_Ability.TabIndex = 55;
@@ -828,7 +838,7 @@
             this.lbl_Race_Allowed_Classes.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbl_Race_Allowed_Classes.AutoSize = true;
             this.lbl_Race_Allowed_Classes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lbl_Race_Allowed_Classes.Location = new System.Drawing.Point(518, 44);
+            this.lbl_Race_Allowed_Classes.Location = new System.Drawing.Point(549, 41);
             this.lbl_Race_Allowed_Classes.Name = "lbl_Race_Allowed_Classes";
             this.lbl_Race_Allowed_Classes.Size = new System.Drawing.Size(27, 20);
             this.lbl_Race_Allowed_Classes.TabIndex = 56;
@@ -879,11 +889,37 @@
             this.lbl_Total_HP.TabIndex = 61;
             this.lbl_Total_HP.Text = "0";
             // 
+            // lbl_Race_Error
+            // 
+            this.lbl_Race_Error.AutoSize = true;
+            this.lbl_Race_Error.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.lbl_Race_Error.ForeColor = System.Drawing.Color.Red;
+            this.lbl_Race_Error.Location = new System.Drawing.Point(715, 417);
+            this.lbl_Race_Error.Name = "lbl_Race_Error";
+            this.lbl_Race_Error.Size = new System.Drawing.Size(152, 40);
+            this.lbl_Race_Error.TabIndex = 11;
+            this.lbl_Race_Error.Text = "ERROR: MINIMUM \r\nSTAT NOT MET";
+            this.lbl_Race_Error.Visible = false;
+            // 
+            // lbl_Class_Error
+            // 
+            this.lbl_Class_Error.AutoSize = true;
+            this.lbl_Class_Error.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.lbl_Class_Error.ForeColor = System.Drawing.Color.Red;
+            this.lbl_Class_Error.Location = new System.Drawing.Point(492, 527);
+            this.lbl_Class_Error.Name = "lbl_Class_Error";
+            this.lbl_Class_Error.Size = new System.Drawing.Size(252, 40);
+            this.lbl_Class_Error.TabIndex = 12;
+            this.lbl_Class_Error.Text = "ERROR: CLASS NOT ALLOWED \r\nFOR CHOSEN RACE";
+            this.lbl_Class_Error.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(870, 797);
+            this.Controls.Add(this.lbl_Class_Error);
+            this.Controls.Add(this.lbl_Race_Error);
             this.Controls.Add(this.tableLayoutPanel5);
             this.Controls.Add(this.tableLayoutPanel4);
             this.Controls.Add(this.tableLayoutPanel3);
@@ -975,6 +1011,8 @@
         private System.Windows.Forms.Label lbl_Class_hit_dice_value;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lbl_Total_HP;
+        private System.Windows.Forms.Label lbl_Race_Error;
+        private System.Windows.Forms.Label lbl_Class_Error;
     }
 }
 

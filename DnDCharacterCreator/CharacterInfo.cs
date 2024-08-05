@@ -16,8 +16,16 @@ namespace DnDCharacterCreator
         public int WIS { get; set; }
         public int DEX { get; set; }
         public int CON {  get; set; }
-
         public int CHA { get; set; }
+
+        public int STR_Mod { get; set; }
+        public int INT_Mod { get; set; }
+        public int WIS_Mod { get; set; }
+        public int DEX_Mod { get; set; }
+        public int CON_Mod { get; set; }
+        public int CHA_Mod { get; set; }
+
+
 
         public Race charRace { get; set; }
 
@@ -28,6 +36,7 @@ namespace DnDCharacterCreator
 
         public enum Race
         {
+            None = 0,
             Dwarf = 1,
             Elf = 2,
             Gnome = 3,
@@ -37,6 +46,7 @@ namespace DnDCharacterCreator
 
         public enum Class
         {
+            None = 0,
             Bard = 1,
             Cleric = 2,
             Druid = 3,
