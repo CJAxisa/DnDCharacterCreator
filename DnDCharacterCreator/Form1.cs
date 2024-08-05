@@ -49,7 +49,7 @@ namespace DnDCharacterCreator
             CON_Reroll();
             CHA_Reroll();
             CHA_Reroll();
-
+            GoldRoll();
         }
 
         /// <summary>
@@ -308,9 +308,15 @@ namespace DnDCharacterCreator
 
         private void btn_Gold_Reroll_Click(object sender, EventArgs e)
         {
+            GoldRoll();
+        }
+
+        private void GoldRoll()
+        {
             currentCharacter.StartingGold = RollDice(3, 6) * 100;
             lbl_Start_Gold_value.Text = currentCharacter.StartingGold.ToString();
         }
+
         private void btn_Save_Click(object sender, EventArgs e)
         {
             if(hasRaceError)

@@ -751,7 +751,7 @@
             this.btn_HP_Reroll.Name = "btn_HP_Reroll";
             this.btn_HP_Reroll.Size = new System.Drawing.Size(90, 28);
             this.btn_HP_Reroll.TabIndex = 59;
-            this.btn_HP_Reroll.Text = "Reroll";
+            this.btn_HP_Reroll.Text = "Roll";
             this.btn_HP_Reroll.UseVisualStyleBackColor = true;
             this.btn_HP_Reroll.Click += new System.EventHandler(this.btn_HP_Reroll_Click);
             // 
