@@ -16,5 +16,10 @@ namespace DnDCharacterCreator
         {
             InitializeComponent();
         }
+
+        private void rchTxtBox_CharName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
