@@ -15,7 +15,7 @@ namespace DnDCharacterCreator
         public int DEX { get; set; }
         public int CON {  get; set; }
 
-        public int CHAR { get; set; }
+        public int CHA { get; set; }
 
         public Race charRace { get; set; }
 

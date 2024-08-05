@@ -517,6 +517,7 @@
             this.btn_STR_Reroll.TabIndex = 53;
             this.btn_STR_Reroll.Text = "Reroll";
             this.btn_STR_Reroll.UseVisualStyleBackColor = true;
+            this.btn_STR_Reroll.Click += new System.EventHandler(this.btn_STR_Reroll_Click);
             // 
             // btn_INT_Reroll
             // 
@@ -528,6 +529,7 @@
             this.btn_INT_Reroll.TabIndex = 55;
             this.btn_INT_Reroll.Text = "Reroll";
             this.btn_INT_Reroll.UseVisualStyleBackColor = true;
+            this.btn_INT_Reroll.Click += new System.EventHandler(this.btn_INT_Reroll_Click);
             // 
             // btn_WIS_Reroll
             // 
@@ -539,6 +541,7 @@
             this.btn_WIS_Reroll.TabIndex = 56;
             this.btn_WIS_Reroll.Text = "Reroll";
             this.btn_WIS_Reroll.UseVisualStyleBackColor = true;
+            this.btn_WIS_Reroll.Click += new System.EventHandler(this.btn_WIS_Reroll_Click);
             // 
             // btn_DEX_Reroll
             // 
@@ -550,6 +553,7 @@
             this.btn_DEX_Reroll.TabIndex = 57;
             this.btn_DEX_Reroll.Text = "Reroll";
             this.btn_DEX_Reroll.UseVisualStyleBackColor = true;
+            this.btn_DEX_Reroll.Click += new System.EventHandler(this.btn_DEX_Reroll_Click);
             // 
             // btn_CON_Reroll
             // 
@@ -561,6 +565,7 @@
             this.btn_CON_Reroll.TabIndex = 58;
             this.btn_CON_Reroll.Text = "Reroll";
             this.btn_CON_Reroll.UseVisualStyleBackColor = true;
+            this.btn_CON_Reroll.Click += new System.EventHandler(this.btn_CON_Reroll_Click);
             // 
             // btn_CHA_Reroll
             // 
@@ -572,6 +577,7 @@
             this.btn_CHA_Reroll.TabIndex = 59;
             this.btn_CHA_Reroll.Text = "Reroll";
             this.btn_CHA_Reroll.UseVisualStyleBackColor = true;
+            this.btn_CHA_Reroll.Click += new System.EventHandler(this.btn_CHA_Reroll_Click);
             // 
             // tableLayoutPanel3
             // 
