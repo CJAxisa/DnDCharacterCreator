@@ -25,6 +25,7 @@ namespace DnDCharacterCreator
         public int CON_Mod { get; set; }
         public int CHA_Mod { get; set; }
 
+        public int CON_HP_MOD { get; set; }
 
 
         public Race charRace { get; set; }

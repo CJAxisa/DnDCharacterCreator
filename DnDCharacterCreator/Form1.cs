@@ -258,6 +258,25 @@ namespace DnDCharacterCreator
             currentCharacter.CON = RollDice(3, 6);
             lbl_CON_roll.Text = currentCharacter.CON.ToString();
             CheckForRaceError(currentCharacter.charRace);
+
+            //now we must handle the Constitution modifier as it relates to calculating HP
+            if (currentCharacter.CON <= 3)
+                currentCharacter.CON_HP_MOD = -3;
+            else if (currentCharacter.CON <= 5)
+                currentCharacter.CON_HP_MOD = -2;
+            else if (currentCharacter.CON <= 8)
+                currentCharacter.CON_HP_MOD = -1;
+            else if (currentCharacter.CON <= 12)
+                currentCharacter.CON_HP_MOD = 0;
+            else if (currentCharacter.CON <= 15)
+                currentCharacter.CON_HP_MOD = 1;
+            else if (currentCharacter.CON <= 17)
+                currentCharacter.CON_HP_MOD = 2;
+            else if (currentCharacter.CON <= 20)
+                currentCharacter.CON_HP_MOD = 3;
+
+            lbl_HP_CON_Mod.Text = currentCharacter.CON_HP_MOD.ToString();
+
         }
 
         private void btn_CHA_Reroll_Click(object sender, EventArgs e)
