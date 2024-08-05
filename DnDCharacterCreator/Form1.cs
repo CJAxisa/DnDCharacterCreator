@@ -76,7 +76,36 @@ namespace DnDCharacterCreator
         /// <param name="characterInfo"></param>
         public void UpdateFromCharacterInfo(CharacterInfo characterInfo)
         {
+            currentCharacter = characterInfo;
 
+            lbl_STR_mod.Text = characterInfo.STR_Mod.ToString();
+            lbl_INT_mod.Text = characterInfo.INT_Mod.ToString();
+            lbl_WIS_mod.Text = characterInfo.WIS_Mod.ToString();
+            lbl_DEX_mod.Text = characterInfo.DEX_Mod.ToString();
+            lbl_CON_mod.Text = characterInfo.CON_Mod.ToString();
+            lbl_CHA_mod.Text = characterInfo.CHA_Mod.ToString();
+
+            lbl_STR_roll.Text = characterInfo.STR.ToString();
+            lbl_INT_roll.Text = characterInfo.INT.ToString();
+            lbl_WIS_roll.Text = characterInfo.WIS.ToString();
+            lbl_DEX_roll.Text = characterInfo.DEX.ToString();
+            lbl_CON_roll.Text = characterInfo.CON.ToString();
+            lbl_CHA_roll.Text = characterInfo.CHA.ToString();
+
+            comboBox_Race.SelectedIndex = (int)characterInfo.charRace-1;
+            comboBox_Race.Refresh();
+            SelectNewRace(characterInfo.charRace);
+
+            comboBox_Class.SelectedIndex = (int)characterInfo.charClass-1;
+            comboBox_Class.Refresh();
+            SelectNewClass(characterInfo.charClass);
+
+            lbl_Total_HP.Text = currentCharacter.HitPoints.ToString();
+            lbl_HP_CON_Mod.Text = currentCharacter.CON_HP_MOD.ToString();
+            lbl_HP_roll.Text = (currentCharacter.HitPoints - currentCharacter.CON_HP_MOD).ToString();
+
+
+            lbl_Start_Gold_value.Text = characterInfo.StartingGold.ToString();
 
         }
 
@@ -276,7 +305,7 @@ namespace DnDCharacterCreator
                 currentCharacter.CON_HP_MOD = 3;
 
             lbl_HP_CON_Mod.Text = currentCharacter.CON_HP_MOD.ToString();
-
+            ResetHP();
         }
 
         private void btn_CHA_Reroll_Click(object sender, EventArgs e)
@@ -402,6 +431,7 @@ namespace DnDCharacterCreator
                     StreamReader myReader = new StreamReader(myStream);
                     currentCharacter = new CharacterInfo();
                     currentCharacter.FromJson(myReader.ReadToEnd());
+                    UpdateFromCharacterInfo(currentCharacter);
                     myReader.Close();
                     Console.WriteLine(currentCharacter.ToString());
                 }
@@ -411,7 +441,13 @@ namespace DnDCharacterCreator
 
         private void comboBox_Race_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CharacterInfo.Race newRace = (CharacterInfo.Race)comboBox_Race.SelectedIndex+1;
+            CharacterInfo.Race newRace = (CharacterInfo.Race)comboBox_Race.SelectedIndex + 1;
+            SelectNewRace(newRace);
+
+        }
+
+        private void SelectNewRace(CharacterInfo.Race newRace)
+        {
 
             //if Race is the same as old newRace, no update needed
             if (newRace == currentCharacter.charRace)
@@ -518,13 +554,18 @@ namespace DnDCharacterCreator
             CheckForRaceError(newRace);
             currentCharacter.charRace = newRace;
             CheckForClassError(currentCharacter.charClass);
-
-
         }
 
         private void comboBox_Class_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CharacterInfo.Class newClass = (CharacterInfo.Class)comboBox_Class.SelectedIndex +1;
+            CharacterInfo.Class newClass = (CharacterInfo.Class)comboBox_Class.SelectedIndex + 1;
+
+            SelectNewClass(newClass);
+
+        }
+
+        private void SelectNewClass(CharacterInfo.Class newClass)
+        {
 
             // For each class, update text and check if we need to reset HP due to a new HitDice
             switch (newClass)
@@ -532,7 +573,7 @@ namespace DnDCharacterCreator
                 case CharacterInfo.Class.None:
                     break;
                 case CharacterInfo.Class.Bard:
-                    if(lbl_Class_hit_dice_value.Text != "1d6")
+                    if (lbl_Class_hit_dice_value.Text != "1d6")
                     {
                         lbl_Class_hit_dice_value.Text = "1d6";
                         ResetHP();
@@ -593,7 +634,6 @@ namespace DnDCharacterCreator
 
             currentCharacter.charClass = newClass;
             CheckForClassError(newClass);
-
         }
 
         #endregion

@@ -68,13 +68,25 @@ namespace DnDCharacterCreator
         public void FromJson(string json)
         {
             CharacterInfo Jason = JsonSerializer.Deserialize<CharacterInfo>(json);
+            
             Name = Jason.Name;
+
             STR = Jason.STR;
             INT = Jason.INT;
             WIS = Jason.WIS;
             DEX = Jason.DEX;
             CON = Jason.CON;
             CHA = Jason.CHA;
+
+            STR_Mod = Jason.STR_Mod;
+            INT_Mod = Jason.INT_Mod;
+            WIS_Mod = Jason.WIS_Mod;
+            DEX_Mod = Jason.DEX_Mod;
+            CON_Mod = Jason.CON_Mod;
+            CHA_Mod = Jason.CHA_Mod;
+
+            CON_HP_MOD = Jason.CON_HP_MOD;
+
             HitPoints  = Jason.HitPoints;
             StartingGold = Jason.StartingGold;
             charRace = Jason.charRace;
