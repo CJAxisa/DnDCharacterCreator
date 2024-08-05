@@ -221,31 +221,14 @@ namespace DnDCharacterCreator
             btn_HP_Reroll.Text = "Roll";
             hasHPBeenRolled= false;
         }
-        #endregion
 
 
-
-        #region Controls
-
-        private void rchTxtBox_CharName_TextChanged(object sender, EventArgs e)
-        {
-            currentCharacter.Name = rchTxtBox_CharName.Text;
-        }
-        private void btn_STR_Reroll_Click(object sender, EventArgs e)
-        {
-            STR_Reroll();
-        }
 
         private void STR_Reroll()
         {
             currentCharacter.STR = RollDice(3, 6);
             lbl_STR_roll.Text = currentCharacter.STR.ToString();
             CheckForRaceError(currentCharacter.charRace);
-        }
-
-        private void btn_INT_Reroll_Click(object sender, EventArgs e)
-        {
-            INT_Reroll();
         }
 
         private void INT_Reroll()
@@ -255,11 +238,6 @@ namespace DnDCharacterCreator
             CheckForRaceError(currentCharacter.charRace);
         }
 
-        private void btn_WIS_Reroll_Click(object sender, EventArgs e)
-        {
-            WIS_Reroll();
-        }
-
         private void WIS_Reroll()
         {
             currentCharacter.WIS = RollDice(3, 6);
@@ -267,21 +245,11 @@ namespace DnDCharacterCreator
             CheckForRaceError(currentCharacter.charRace);
         }
 
-        private void btn_DEX_Reroll_Click(object sender, EventArgs e)
-        {
-            DEX_Reroll();
-        }
-
         private void DEX_Reroll()
         {
             currentCharacter.DEX = RollDice(3, 6);
             lbl_DEX_roll.Text = currentCharacter.DEX.ToString();
             CheckForRaceError(currentCharacter.charRace);
-        }
-
-        private void btn_CON_Reroll_Click(object sender, EventArgs e)
-        {
-            CON_Reroll();
         }
 
         private void CON_Reroll()
@@ -310,11 +278,6 @@ namespace DnDCharacterCreator
             ResetHP();
         }
 
-        private void btn_CHA_Reroll_Click(object sender, EventArgs e)
-        {
-            CHA_Reroll();
-        }
-
         private void CHA_Reroll()
         {
             currentCharacter.CHA = RollDice(3, 6);
@@ -322,10 +285,6 @@ namespace DnDCharacterCreator
             CheckForRaceError(currentCharacter.charRace);
         }
 
-        private void btn_HP_Reroll_Click(object sender, EventArgs e)
-        {
-            HP_Roll();
-        }
 
         private void HP_Roll()
         {
@@ -356,10 +315,6 @@ namespace DnDCharacterCreator
 
         }
 
-        private void btn_Gold_Reroll_Click(object sender, EventArgs e)
-        {
-            GoldRoll();
-        }
 
         private void GoldRoll()
         {
@@ -367,86 +322,7 @@ namespace DnDCharacterCreator
             lbl_Start_Gold_value.Text = currentCharacter.StartingGold.ToString();
         }
 
-        private void btn_Save_Click(object sender, EventArgs e)
-        {
-            if(hasRaceError)
-            {
-                MessageBox.Show("Please Resolve your character's Race Error before saving");
-                return;
-            }
 
-            if(hasClassError)
-            {
-                MessageBox.Show("Please Resolve your character's Class Error before saving");
-                return;
-            }
-
-            if(!hasHPBeenRolled)
-            {
-                MessageBox.Show("Roll for Hit points before saving your character! We can't adventure with 0 HP!");
-                return;
-            }
-
-            if(currentCharacter.charRace == CharacterInfo.Race.None)
-            {
-                MessageBox.Show("Please select character race before saving");
-                return;
-            }
-
-            if(currentCharacter.charClass == CharacterInfo.Class.None)
-            {
-                MessageBox.Show("Please select character class before saving");
-                return;
-            }
-            Stream myStream;
-            SaveFileDialog SFD = new SaveFileDialog();
-            SFD.AddExtension = true;
-            SFD.FileName = currentCharacter.Name;
-            SFD.DefaultExt = ".txt";
-            SFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-
-            if (SFD.ShowDialog() == DialogResult.OK)
-            {
-                if ((myStream = SFD.OpenFile()) != null)
-                {
-                    StreamWriter myWriter = new StreamWriter(myStream);
-                    myWriter.Write(currentCharacter.ToJson());
-                    myWriter.Flush();
-
-                    myWriter.Close();
-                    myStream.Close();
-                }
-            }
-        }
-
-        private void btn_Load_Click(object sender, EventArgs e)
-        {
-            Stream myStream;
-            OpenFileDialog OFD = new OpenFileDialog();
-            OFD.DefaultExt = ".txt";
-            OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-
-            if(OFD.ShowDialog() == DialogResult.OK)
-            {
-                if((myStream = OFD.OpenFile()) != null)
-                {
-                    StreamReader myReader = new StreamReader(myStream);
-                    currentCharacter = new CharacterInfo();
-                    currentCharacter.FromJson(myReader.ReadToEnd());
-                    UpdateFromCharacterInfo(currentCharacter);
-                    myReader.Close();
-                    Console.WriteLine(currentCharacter.ToString());
-                }
-            }
-        }
-
-
-        private void comboBox_Race_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            CharacterInfo.Race newRace = (CharacterInfo.Race)comboBox_Race.SelectedIndex + 1;
-            SelectNewRace(newRace);
-
-        }
 
         private void SelectNewRace(CharacterInfo.Race newRace)
         {
@@ -558,13 +434,6 @@ namespace DnDCharacterCreator
             CheckForClassError(currentCharacter.charClass);
         }
 
-        private void comboBox_Class_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            CharacterInfo.Class newClass = (CharacterInfo.Class)comboBox_Class.SelectedIndex + 1;
-
-            SelectNewClass(newClass);
-
-        }
 
         private void SelectNewClass(CharacterInfo.Class newClass)
         {
@@ -636,6 +505,156 @@ namespace DnDCharacterCreator
 
             currentCharacter.charClass = newClass;
             CheckForClassError(newClass);
+        }
+
+
+
+
+        #endregion
+
+
+
+        #region Controls
+
+        private void rchTxtBox_CharName_TextChanged(object sender, EventArgs e)
+        {
+            currentCharacter.Name = rchTxtBox_CharName.Text;
+        }
+        private void btn_STR_Reroll_Click(object sender, EventArgs e)
+        {
+            STR_Reroll();
+        }
+
+
+        private void btn_INT_Reroll_Click(object sender, EventArgs e)
+        {
+            INT_Reroll();
+        }
+
+        private void btn_WIS_Reroll_Click(object sender, EventArgs e)
+        {
+            WIS_Reroll();
+        }
+
+        private void btn_DEX_Reroll_Click(object sender, EventArgs e)
+        {
+            DEX_Reroll();
+        }
+
+
+        private void btn_CON_Reroll_Click(object sender, EventArgs e)
+        {
+            CON_Reroll();
+        }
+
+
+        private void btn_CHA_Reroll_Click(object sender, EventArgs e)
+        {
+            CHA_Reroll();
+        }
+
+
+        private void btn_HP_Reroll_Click(object sender, EventArgs e)
+        {
+            HP_Roll();
+        }
+
+
+        private void btn_Gold_Reroll_Click(object sender, EventArgs e)
+        {
+            GoldRoll();
+        }
+
+
+        private void btn_Save_Click(object sender, EventArgs e)
+        {
+            if(hasRaceError)
+            {
+                MessageBox.Show("Please Resolve your character's Race Error before saving");
+                return;
+            }
+
+            if(hasClassError)
+            {
+                MessageBox.Show("Please Resolve your character's Class Error before saving");
+                return;
+            }
+
+            if(!hasHPBeenRolled)
+            {
+                MessageBox.Show("Roll for Hit points before saving your character! We can't adventure with 0 HP!");
+                return;
+            }
+
+            if(currentCharacter.charRace == CharacterInfo.Race.None)
+            {
+                MessageBox.Show("Please select character race before saving");
+                return;
+            }
+
+            if(currentCharacter.charClass == CharacterInfo.Class.None)
+            {
+                MessageBox.Show("Please select character class before saving");
+                return;
+            }
+            Stream myStream;
+            SaveFileDialog SFD = new SaveFileDialog();
+            SFD.AddExtension = true;
+            SFD.FileName = currentCharacter.Name;
+            SFD.DefaultExt = ".txt";
+            SFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+
+            if (SFD.ShowDialog() == DialogResult.OK)
+            {
+                if ((myStream = SFD.OpenFile()) != null)
+                {
+                    StreamWriter myWriter = new StreamWriter(myStream);
+                    myWriter.Write(currentCharacter.ToJson());
+                    myWriter.Flush();
+
+                    myWriter.Close();
+                    myStream.Close();
+                }
+            }
+        }
+
+        private void btn_Load_Click(object sender, EventArgs e)
+        {
+            Stream myStream;
+            OpenFileDialog OFD = new OpenFileDialog();
+            OFD.DefaultExt = ".txt";
+            OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+
+            if(OFD.ShowDialog() == DialogResult.OK)
+            {
+                if((myStream = OFD.OpenFile()) != null)
+                {
+                    StreamReader myReader = new StreamReader(myStream);
+                    currentCharacter = new CharacterInfo();
+                    currentCharacter.FromJson(myReader.ReadToEnd());
+                    UpdateFromCharacterInfo(currentCharacter);
+                    myReader.Close();
+                    Console.WriteLine(currentCharacter.ToString());
+                }
+            }
+        }
+
+
+        private void comboBox_Race_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CharacterInfo.Race newRace = (CharacterInfo.Race)comboBox_Race.SelectedIndex + 1;
+            SelectNewRace(newRace);
+
+        }
+
+
+
+        private void comboBox_Class_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CharacterInfo.Class newClass = (CharacterInfo.Class)comboBox_Class.SelectedIndex + 1;
+
+            SelectNewClass(newClass);
+
         }
 
         #endregion
