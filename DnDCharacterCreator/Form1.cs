@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,12 +26,21 @@ namespace DnDCharacterCreator
 
         #region Utility
 
+        /// <summary>
+        /// Used to get default ability scores when app is initially opened
+        /// </summary>
         public void RollDefaultValues()
         {
 
 
         }
 
+        /// <summary>
+        /// quick Utility for rolling x amount of Y sided dice and getting sum
+        /// </summary>
+        /// <param name="numDice"></param>
+        /// <param name="numSides"></param>
+        /// <returns></returns>
         public int RollDice(int numDice, int numSides)
         {
             int sum = 0;
@@ -41,11 +52,23 @@ namespace DnDCharacterCreator
             return sum;
         }
 
+
+        /// <summary>
+        /// This should take a character info and have all info on the app update to match the given char
+        /// </summary>
+        /// <param name="characterInfo"></param>
+        public void UpdateFromCharacterInfo(CharacterInfo characterInfo)
+        {
+
+
+        }
+
         #endregion
 
 
 
         #region Controls
+
         private void rchTxtBox_CharName_TextChanged(object sender, EventArgs e)
         {
             currentCharacter.Name = rchTxtBox_CharName.Text;
@@ -118,12 +141,45 @@ namespace DnDCharacterCreator
         }
         private void btn_Save_Click(object sender, EventArgs e)
         {
+            Stream myStream;
+            SaveFileDialog SFD = new SaveFileDialog();
+            SFD.AddExtension = true;
+            SFD.FileName = currentCharacter.Name;
+            SFD.DefaultExt = ".txt";
+            SFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
 
+            if (SFD.ShowDialog() == DialogResult.OK)
+            {
+                if ((myStream = SFD.OpenFile()) != null)
+                {
+                    StreamWriter myWriter = new StreamWriter(myStream);
+                    myWriter.Write(currentCharacter.ToJson());
+                    myWriter.Flush();
+
+                    myWriter.Close();
+                    myStream.Close();
+                }
+            }
         }
 
         private void btn_Load_Click(object sender, EventArgs e)
         {
+            Stream myStream;
+            OpenFileDialog OFD = new OpenFileDialog();
+            OFD.DefaultExt = ".txt";
+            OFD.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
 
+            if(OFD.ShowDialog() == DialogResult.OK)
+            {
+                if((myStream = OFD.OpenFile()) != null)
+                {
+                    StreamReader myReader = new StreamReader(myStream);
+                    currentCharacter = new CharacterInfo();
+                    currentCharacter.FromJson(myReader.ReadToEnd());
+                    myReader.Close();
+                    Console.WriteLine(currentCharacter.ToString());
+                }
+            }
         }
 
         #endregion

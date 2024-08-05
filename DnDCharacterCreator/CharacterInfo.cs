@@ -48,5 +48,26 @@ namespace DnDCharacterCreator
 
         public CharacterInfo() { }
 
+
+        public string ToJson()
+        {
+            return JsonSerializer.Serialize(this);
+        }
+
+        public void FromJson(string json)
+        {
+            CharacterInfo Jason = JsonSerializer.Deserialize<CharacterInfo>(json);
+            Name = Jason.Name;
+            STR = Jason.STR;
+            INT = Jason.INT;
+            WIS = Jason.WIS;
+            DEX = Jason.DEX;
+            CON = Jason.CON;
+            CHA = Jason.CHA;
+            HitPoints  = Jason.HitPoints;
+            StartingGold = Jason.StartingGold;
+            charRace = Jason.charRace;
+            charClass = Jason.charClass;
+        }
     }
 }
