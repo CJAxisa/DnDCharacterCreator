@@ -50,6 +50,10 @@ namespace DnDCharacterCreator
             CHA_Reroll();
             CHA_Reroll();
             GoldRoll();
+
+            //Commented out for now, user should use SOME input other than default values
+            //IMO Rolling for character health is part of the DnD char creation experience. can be reworked if need be
+            //HP_Roll();
         }
 
         /// <summary>
@@ -275,6 +279,8 @@ namespace DnDCharacterCreator
                 currentCharacter.CON_HP_MOD = 3;
 
             lbl_HP_CON_Mod.Text = currentCharacter.CON_HP_MOD.ToString();
+
+            //since CON MOD afects how HP is determined, user will need to reroll HP
             ResetHP();
         }
 
@@ -331,6 +337,8 @@ namespace DnDCharacterCreator
             if (newRace == currentCharacter.charRace)
                 return;
 
+
+            //there may be a better a way to refactor this, but im out of time, so oh well
             switch (newRace)
             {
                 case CharacterInfo.Race.Dwarf:
@@ -429,9 +437,10 @@ namespace DnDCharacterCreator
                     break;
             }
 
+            //check for race error after modifiers are added to give user more leeway in char creation
             CheckForRaceError(newRace);
             currentCharacter.charRace = newRace;
-            CheckForClassError(currentCharacter.charClass);
+            CheckForClassError(currentCharacter.charClass);     //must check class after race value is assigned
         }
 
 
@@ -568,6 +577,8 @@ namespace DnDCharacterCreator
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
+
+            //check for invalid character
             if(hasRaceError)
             {
                 MessageBox.Show("Please Resolve your character's Race Error before saving");
@@ -597,6 +608,9 @@ namespace DnDCharacterCreator
                 MessageBox.Show("Please select character class before saving");
                 return;
             }
+
+            //since char is valid, proceed to save
+
             Stream myStream;
             SaveFileDialog SFD = new SaveFileDialog();
             SFD.AddExtension = true;
@@ -611,7 +625,6 @@ namespace DnDCharacterCreator
                     StreamWriter myWriter = new StreamWriter(myStream);
                     myWriter.Write(currentCharacter.ToJson());
                     myWriter.Flush();
-
                     myWriter.Close();
                     myStream.Close();
                 }
@@ -629,12 +642,16 @@ namespace DnDCharacterCreator
             {
                 if((myStream = OFD.OpenFile()) != null)
                 {
+                    //load JSON data in from file then create character based on that
                     StreamReader myReader = new StreamReader(myStream);
                     currentCharacter = new CharacterInfo();
                     currentCharacter.FromJson(myReader.ReadToEnd());
+
+                    //update forum with new character info then close reader
                     UpdateFromCharacterInfo(currentCharacter);
                     myReader.Close();
-                    Console.WriteLine(currentCharacter.ToString());
+                    myStream.Close();
+                    
                 }
             }
         }

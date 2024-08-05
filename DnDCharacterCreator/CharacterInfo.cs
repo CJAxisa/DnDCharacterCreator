@@ -35,6 +35,8 @@ namespace DnDCharacterCreator
         public int HitPoints { get; set; }
         public int StartingGold { get; set; }
 
+
+        //Enums for Race and class will allow light storage and easy conversions
         public enum Race
         {
             None = 0,
@@ -58,6 +60,13 @@ namespace DnDCharacterCreator
         }
 
         public CharacterInfo() { }
+
+
+        //alt constructor for JSON data
+        public CharacterInfo(string json)
+        {
+            FromJson(json);
+        }
 
 
         public string ToJson()
