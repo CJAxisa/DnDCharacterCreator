@@ -805,44 +805,44 @@
             this.lbl_Race_Minstat.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbl_Race_Minstat.AutoSize = true;
             this.lbl_Race_Minstat.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lbl_Race_Minstat.Location = new System.Drawing.Point(165, 41);
+            this.lbl_Race_Minstat.Location = new System.Drawing.Point(155, 41);
             this.lbl_Race_Minstat.Name = "lbl_Race_Minstat";
-            this.lbl_Race_Minstat.Size = new System.Drawing.Size(27, 20);
+            this.lbl_Race_Minstat.Size = new System.Drawing.Size(47, 20);
             this.lbl_Race_Minstat.TabIndex = 53;
-            this.lbl_Race_Minstat.Text = "12";
+            this.lbl_Race_Minstat.Text = "None";
             // 
             // lbl_Race_Modifier
             // 
             this.lbl_Race_Modifier.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbl_Race_Modifier.AutoSize = true;
             this.lbl_Race_Modifier.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lbl_Race_Modifier.Location = new System.Drawing.Point(281, 41);
+            this.lbl_Race_Modifier.Location = new System.Drawing.Point(271, 41);
             this.lbl_Race_Modifier.Name = "lbl_Race_Modifier";
-            this.lbl_Race_Modifier.Size = new System.Drawing.Size(27, 20);
+            this.lbl_Race_Modifier.Size = new System.Drawing.Size(47, 20);
             this.lbl_Race_Modifier.TabIndex = 54;
-            this.lbl_Race_Modifier.Text = "12";
+            this.lbl_Race_Modifier.Text = "None";
             // 
             // lbl_Race_Ability
             // 
             this.lbl_Race_Ability.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbl_Race_Ability.AutoSize = true;
             this.lbl_Race_Ability.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lbl_Race_Ability.Location = new System.Drawing.Point(385, 41);
+            this.lbl_Race_Ability.Location = new System.Drawing.Point(375, 41);
             this.lbl_Race_Ability.Name = "lbl_Race_Ability";
-            this.lbl_Race_Ability.Size = new System.Drawing.Size(27, 20);
+            this.lbl_Race_Ability.Size = new System.Drawing.Size(47, 20);
             this.lbl_Race_Ability.TabIndex = 55;
-            this.lbl_Race_Ability.Text = "12";
+            this.lbl_Race_Ability.Text = "None";
             // 
             // lbl_Race_Allowed_Classes
             // 
             this.lbl_Race_Allowed_Classes.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbl_Race_Allowed_Classes.AutoSize = true;
             this.lbl_Race_Allowed_Classes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lbl_Race_Allowed_Classes.Location = new System.Drawing.Point(549, 41);
+            this.lbl_Race_Allowed_Classes.Location = new System.Drawing.Point(462, 41);
             this.lbl_Race_Allowed_Classes.Name = "lbl_Race_Allowed_Classes";
-            this.lbl_Race_Allowed_Classes.Size = new System.Drawing.Size(27, 20);
+            this.lbl_Race_Allowed_Classes.Size = new System.Drawing.Size(202, 40);
             this.lbl_Race_Allowed_Classes.TabIndex = 56;
-            this.lbl_Race_Allowed_Classes.Text = "12";
+            this.lbl_Race_Allowed_Classes.Text = "Bard, Cleric, Druid, Fighter, Ranger, Thief, Wizard";
             // 
             // lbl_Class_hit_dice_value
             // 

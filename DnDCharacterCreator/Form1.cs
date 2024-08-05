@@ -71,6 +71,55 @@ namespace DnDCharacterCreator
 
         }
 
+
+        /// <summary>
+        /// Check if race minimum stat condition is met. If not, flag the race error bool and make the warning visible
+        /// </summary>
+        /// <param name="race"></param>
+        public void CheckForRaceError(CharacterInfo.Race race)
+        {
+            switch (race)
+            {
+                case CharacterInfo.Race.None:
+                    break;
+                case CharacterInfo.Race.Dwarf:
+                    if(currentCharacter.CON + currentCharacter.CON_Mod<9)
+                        hasRaceError = true;
+                    else
+                        hasRaceError = false;
+                    break;
+                case CharacterInfo.Race.Elf:
+                    if(currentCharacter.INT + currentCharacter.INT_Mod<9)
+                        hasRaceError = true;
+                    else
+                        hasRaceError = false;
+                    break;
+                case CharacterInfo.Race.Gnome:
+                    if (currentCharacter.CON + currentCharacter.CON_Mod < 9 ||
+                        currentCharacter.INT + currentCharacter.INT_Mod < 9)
+                        hasRaceError = true;
+                    else
+                        hasRaceError = false;
+                    break;
+                case CharacterInfo.Race.Halfling:
+                    if (currentCharacter.CON + currentCharacter.CON_Mod < 9 ||
+                        currentCharacter.DEX + currentCharacter.DEX_Mod < 9)
+                        hasRaceError = true;
+                    else
+                        hasRaceError = false;
+                    break;
+                case CharacterInfo.Race.Human:
+                    //no stat min for humans, so they wont ever cause race error
+                    hasRaceError = false;
+                    break;
+                default:
+                    break;
+            }
+
+            lbl_Race_Error.Visible = hasRaceError;
+
+        }
+
         #endregion
 
 
@@ -212,7 +261,12 @@ namespace DnDCharacterCreator
                     currentCharacter.DEX_Mod = 0;
                     currentCharacter.CON_Mod = 1;
                     currentCharacter.CHA_Mod = -1;
-
+                    lbl_STR_mod.Text = "0";
+                    lbl_INT_mod.Text = "0";
+                    lbl_WIS_mod.Text = "0";
+                    lbl_DEX_mod.Text = "0";
+                    lbl_CON_mod.Text = "+1";
+                    lbl_CHA_mod.Text = "-1";
 
 
                     break;
@@ -221,24 +275,72 @@ namespace DnDCharacterCreator
                     lbl_Race_Modifier.Text = "-1 CON, +1 DEX";
                     lbl_Race_Ability.Text = "Detect Secret Doors";
                     lbl_Race_Allowed_Classes.Text = "Cleric, Druid, Fighter, Ranger, Thief, Wizard";
+                    currentCharacter.STR_Mod = 0;
+                    currentCharacter.INT_Mod = 0;
+                    currentCharacter.WIS_Mod = 0;
+                    currentCharacter.DEX_Mod = 1;
+                    currentCharacter.CON_Mod = -1;
+                    currentCharacter.CHA_Mod = 0;
+                    lbl_STR_mod.Text = "0";
+                    lbl_INT_mod.Text = "0";
+                    lbl_WIS_mod.Text = "0";
+                    lbl_DEX_mod.Text = "+1";
+                    lbl_CON_mod.Text = "-1";
+                    lbl_CHA_mod.Text = "0";
                     break;
                 case CharacterInfo.Race.Gnome:
                     lbl_Race_Minstat.Text = "CON 9, INT 9";
                     lbl_Race_Modifier.Text = "None";
                     lbl_Race_Ability.Text = "Defensive Bonus";
                     lbl_Race_Allowed_Classes.Text = "Cleric, Fighter, Thief, Wizard";
+                    currentCharacter.STR_Mod = 0;
+                    currentCharacter.INT_Mod = 0;
+                    currentCharacter.WIS_Mod = 0;
+                    currentCharacter.DEX_Mod = 0;
+                    currentCharacter.CON_Mod = 0;
+                    currentCharacter.CHA_Mod = 0;
+                    lbl_STR_mod.Text = "0";
+                    lbl_INT_mod.Text = "0";
+                    lbl_WIS_mod.Text = "0";
+                    lbl_DEX_mod.Text = "0";
+                    lbl_CON_mod.Text = "0";
+                    lbl_CHA_mod.Text = "0";
                     break;
                 case CharacterInfo.Race.Halfling:
                     lbl_Race_Minstat.Text = "CON 9, DEX 9";
                     lbl_Race_Modifier.Text = "+1 DEX, -1 STR";
                     lbl_Race_Ability.Text = "Initiative Bonus";
                     lbl_Race_Allowed_Classes.Text = "Bard, Druid, Fighter, Thief";
+                    currentCharacter.STR_Mod = -1;
+                    currentCharacter.INT_Mod = 0;
+                    currentCharacter.WIS_Mod = 0;
+                    currentCharacter.DEX_Mod = 1;
+                    currentCharacter.CON_Mod = 0;
+                    currentCharacter.CHA_Mod = 0;
+                    lbl_STR_mod.Text = "-1";
+                    lbl_INT_mod.Text = "0";
+                    lbl_WIS_mod.Text = "0";
+                    lbl_DEX_mod.Text = "+1";
+                    lbl_CON_mod.Text = "0";
+                    lbl_CHA_mod.Text = "0";
                     break;
                 case CharacterInfo.Race.Human:
                     lbl_Race_Minstat.Text = "None";
                     lbl_Race_Modifier.Text = "None";
                     lbl_Race_Ability.Text = "None";
                     lbl_Race_Allowed_Classes.Text = "Bard, Cleric, Druid, Fighter, Ranger, Thief, Wizard";
+                    currentCharacter.STR_Mod = 0;
+                    currentCharacter.INT_Mod = 0;
+                    currentCharacter.WIS_Mod = 0;
+                    currentCharacter.DEX_Mod = 0;
+                    currentCharacter.CON_Mod = 0;
+                    currentCharacter.CHA_Mod = 0;
+                    lbl_STR_mod.Text = "0";
+                    lbl_INT_mod.Text = "0";
+                    lbl_WIS_mod.Text = "0";
+                    lbl_DEX_mod.Text = "0";
+                    lbl_CON_mod.Text = "0";
+                    lbl_CHA_mod.Text = "0";
                     break;
                 default:
                     break;
