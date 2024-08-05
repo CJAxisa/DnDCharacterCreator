@@ -76,7 +76,6 @@
             this.label28 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
-            this.lbl_TotalHP = new System.Windows.Forms.Label();
             this.lbl_HP_CON_Mod = new System.Windows.Forms.Label();
             this.lbl_HP_roll = new System.Windows.Forms.Label();
             this.btn_HP_Reroll = new System.Windows.Forms.Button();
@@ -90,6 +89,8 @@
             this.lbl_Race_Allowed_Classes = new System.Windows.Forms.Label();
             this.lbl_Class_hit_dice_value = new System.Windows.Forms.Label();
             this.lbl_Class_Prime_Stat_Value = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lbl_Total_HP = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -105,6 +106,7 @@
             this.btn_Save.TabIndex = 0;
             this.btn_Save.Text = "Save Character";
             this.btn_Save.UseVisualStyleBackColor = true;
+            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
             // btn_Load
             // 
@@ -114,6 +116,7 @@
             this.btn_Load.TabIndex = 1;
             this.btn_Load.Text = "Load Character";
             this.btn_Load.UseVisualStyleBackColor = true;
+            this.btn_Load.Click += new System.EventHandler(this.btn_Load_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -647,31 +650,32 @@
             // 
             this.tableLayoutPanel4.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.OutsetPartial;
             this.tableLayoutPanel4.ColumnCount = 4;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.04546F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.95454F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 102F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 206F));
-            this.tableLayoutPanel4.Controls.Add(this.btn_HP_Reroll, 3, 1);
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.97872F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.02128F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 121F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 89F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 76F));
+            this.tableLayoutPanel4.Controls.Add(this.label5, 3, 0);
             this.tableLayoutPanel4.Controls.Add(this.lbl_HP_roll, 2, 1);
             this.tableLayoutPanel4.Controls.Add(this.label28, 2, 0);
             this.tableLayoutPanel4.Controls.Add(this.label30, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.label29, 1, 0);
-            this.tableLayoutPanel4.Controls.Add(this.lbl_TotalHP, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.lbl_HP_CON_Mod, 1, 1);
+            this.tableLayoutPanel4.Controls.Add(this.lbl_Total_HP, 3, 1);
+            this.tableLayoutPanel4.Controls.Add(this.btn_HP_Reroll, 0, 1);
             this.tableLayoutPanel4.Location = new System.Drawing.Point(33, 623);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 2;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(506, 86);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(455, 86);
             this.tableLayoutPanel4.TabIndex = 7;
             // 
             // label28
             // 
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
-            this.label28.Location = new System.Drawing.Point(270, 3);
+            this.label28.Location = new System.Drawing.Point(241, 3);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(111, 20);
             this.label28.TabIndex = 49;
@@ -682,7 +686,7 @@
             // 
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
-            this.label29.Location = new System.Drawing.Point(117, 3);
+            this.label29.Location = new System.Drawing.Point(107, 3);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(115, 20);
             this.label29.TabIndex = 48;
@@ -695,26 +699,17 @@
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
             this.label30.Location = new System.Drawing.Point(6, 3);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(77, 38);
+            this.label30.Size = new System.Drawing.Size(87, 20);
             this.label30.TabIndex = 47;
-            this.label30.Text = "Total Hit Points";
+            this.label30.Text = "Hit Points";
             this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_TotalHP
-            // 
-            this.lbl_TotalHP.AutoSize = true;
-            this.lbl_TotalHP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lbl_TotalHP.Location = new System.Drawing.Point(6, 44);
-            this.lbl_TotalHP.Name = "lbl_TotalHP";
-            this.lbl_TotalHP.Size = new System.Drawing.Size(27, 20);
-            this.lbl_TotalHP.TabIndex = 50;
-            this.lbl_TotalHP.Text = "12";
             // 
             // lbl_HP_CON_Mod
             // 
+            this.lbl_HP_CON_Mod.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_HP_CON_Mod.AutoSize = true;
             this.lbl_HP_CON_Mod.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lbl_HP_CON_Mod.Location = new System.Drawing.Point(117, 44);
+            this.lbl_HP_CON_Mod.Location = new System.Drawing.Point(160, 53);
             this.lbl_HP_CON_Mod.Name = "lbl_HP_CON_Mod";
             this.lbl_HP_CON_Mod.Size = new System.Drawing.Size(18, 20);
             this.lbl_HP_CON_Mod.TabIndex = 51;
@@ -722,9 +717,10 @@
             // 
             // lbl_HP_roll
             // 
+            this.lbl_HP_roll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_HP_roll.AutoSize = true;
             this.lbl_HP_roll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lbl_HP_roll.Location = new System.Drawing.Point(270, 44);
+            this.lbl_HP_roll.Location = new System.Drawing.Point(289, 53);
             this.lbl_HP_roll.Name = "lbl_HP_roll";
             this.lbl_HP_roll.Size = new System.Drawing.Size(18, 20);
             this.lbl_HP_roll.TabIndex = 53;
@@ -733,12 +729,13 @@
             // btn_HP_Reroll
             // 
             this.btn_HP_Reroll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.btn_HP_Reroll.Location = new System.Drawing.Point(403, 47);
+            this.btn_HP_Reroll.Location = new System.Drawing.Point(6, 47);
             this.btn_HP_Reroll.Name = "btn_HP_Reroll";
             this.btn_HP_Reroll.Size = new System.Drawing.Size(90, 28);
             this.btn_HP_Reroll.TabIndex = 59;
             this.btn_HP_Reroll.Text = "Reroll";
             this.btn_HP_Reroll.UseVisualStyleBackColor = true;
+            this.btn_HP_Reroll.Click += new System.EventHandler(this.btn_HP_Reroll_Click);
             // 
             // label13
             // 
@@ -752,9 +749,10 @@
             // 
             // lbl_Start_Gold_value
             // 
+            this.lbl_Start_Gold_value.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbl_Start_Gold_value.AutoSize = true;
             this.lbl_Start_Gold_value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lbl_Start_Gold_value.Location = new System.Drawing.Point(173, 3);
+            this.lbl_Start_Gold_value.Location = new System.Drawing.Point(198, 12);
             this.lbl_Start_Gold_value.Name = "lbl_Start_Gold_value";
             this.lbl_Start_Gold_value.Size = new System.Drawing.Size(27, 20);
             this.lbl_Start_Gold_value.TabIndex = 9;
@@ -790,6 +788,7 @@
             this.btn_Gold_Reroll.TabIndex = 60;
             this.btn_Gold_Reroll.Text = "Reroll";
             this.btn_Gold_Reroll.UseVisualStyleBackColor = true;
+            this.btn_Gold_Reroll.Click += new System.EventHandler(this.btn_Gold_Reroll_Click);
             // 
             // lbl_Race_Minstat
             // 
@@ -840,22 +839,45 @@
             this.lbl_Class_hit_dice_value.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbl_Class_hit_dice_value.AutoSize = true;
             this.lbl_Class_hit_dice_value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lbl_Class_hit_dice_value.Location = new System.Drawing.Point(205, 44);
+            this.lbl_Class_hit_dice_value.Location = new System.Drawing.Point(200, 44);
             this.lbl_Class_hit_dice_value.Name = "lbl_Class_hit_dice_value";
-            this.lbl_Class_hit_dice_value.Size = new System.Drawing.Size(27, 20);
+            this.lbl_Class_hit_dice_value.Size = new System.Drawing.Size(36, 20);
             this.lbl_Class_hit_dice_value.TabIndex = 53;
-            this.lbl_Class_hit_dice_value.Text = "12";
+            this.lbl_Class_hit_dice_value.Text = "1d6";
+            this.lbl_Class_hit_dice_value.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lbl_Class_Prime_Stat_Value
             // 
             this.lbl_Class_Prime_Stat_Value.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbl_Class_Prime_Stat_Value.AutoSize = true;
             this.lbl_Class_Prime_Stat_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lbl_Class_Prime_Stat_Value.Location = new System.Drawing.Point(361, 44);
+            this.lbl_Class_Prime_Stat_Value.Location = new System.Drawing.Point(354, 44);
             this.lbl_Class_Prime_Stat_Value.Name = "lbl_Class_Prime_Stat_Value";
-            this.lbl_Class_Prime_Stat_Value.Size = new System.Drawing.Size(27, 20);
+            this.lbl_Class_Prime_Stat_Value.Size = new System.Drawing.Size(40, 20);
             this.lbl_Class_Prime_Stat_Value.TabIndex = 54;
-            this.lbl_Class_Prime_Stat_Value.Text = "12";
+            this.lbl_Class_Prime_Stat_Value.Text = "WIS";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))));
+            this.label5.Location = new System.Drawing.Point(365, 3);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(78, 20);
+            this.label5.TabIndex = 60;
+            this.label5.Text = "Total HP";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Total_HP
+            // 
+            this.lbl_Total_HP.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_Total_HP.AutoSize = true;
+            this.lbl_Total_HP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.lbl_Total_HP.Location = new System.Drawing.Point(398, 53);
+            this.lbl_Total_HP.Name = "lbl_Total_HP";
+            this.lbl_Total_HP.Size = new System.Drawing.Size(18, 20);
+            this.lbl_Total_HP.TabIndex = 61;
+            this.lbl_Total_HP.Text = "0";
             // 
             // Form1
             // 
@@ -940,7 +962,6 @@
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Button btn_HP_Reroll;
         private System.Windows.Forms.Label lbl_HP_roll;
-        private System.Windows.Forms.Label lbl_TotalHP;
         private System.Windows.Forms.Label lbl_HP_CON_Mod;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label lbl_Start_Gold_value;
@@ -952,6 +973,8 @@
         private System.Windows.Forms.Label lbl_Race_Minstat;
         private System.Windows.Forms.Label lbl_Class_Prime_Stat_Value;
         private System.Windows.Forms.Label lbl_Class_hit_dice_value;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lbl_Total_HP;
     }
 }
 
