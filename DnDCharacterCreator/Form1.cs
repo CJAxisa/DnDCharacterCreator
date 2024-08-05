@@ -78,6 +78,8 @@ namespace DnDCharacterCreator
         {
             currentCharacter = characterInfo;
 
+            rchTxtBox_CharName.Text = characterInfo.Name;
+
             lbl_STR_mod.Text = characterInfo.STR_Mod.ToString();
             lbl_INT_mod.Text = characterInfo.INT_Mod.ToString();
             lbl_WIS_mod.Text = characterInfo.WIS_Mod.ToString();
