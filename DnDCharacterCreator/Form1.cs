@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -39,7 +40,7 @@ namespace DnDCharacterCreator
         /// </summary>
         public void RollDefaultValues()
         {
-
+            btn_CHA_Reroll.PerformClick();
 
         }
 
@@ -73,12 +74,12 @@ namespace DnDCharacterCreator
 
 
         /// <summary>
-        /// Check if race minimum stat condition is met. If not, flag the race error bool and make the warning visible
+        /// Check if newRace minimum stat condition is met. If not, flag the newRace error bool and make the warning visible
         /// </summary>
-        /// <param name="race"></param>
-        public void CheckForRaceError(CharacterInfo.Race race)
+        /// <param name="newRace"></param>
+        public void CheckForRaceError(CharacterInfo.Race newRace)
         {
-            switch (race)
+            switch (newRace)
             {
                 case CharacterInfo.Race.None:
                     break;
@@ -109,7 +110,7 @@ namespace DnDCharacterCreator
                         hasRaceError = false;
                     break;
                 case CharacterInfo.Race.Human:
-                    //no stat min for humans, so they wont ever cause race error
+                    //no stat min for humans, so they wont ever cause newRace error
                     hasRaceError = false;
                     break;
                 default:
@@ -118,6 +119,58 @@ namespace DnDCharacterCreator
 
             lbl_Race_Error.Visible = hasRaceError;
 
+        }
+
+
+        /// <summary>
+        /// Make sure character race is allowed to use given class
+        /// </summary>
+        /// <param name="newClass"></param>
+        public void CheckForClassError(CharacterInfo.Class newClass)
+        {
+            switch (currentCharacter.charRace)
+            {
+                case CharacterInfo.Race.None:
+                    hasClassError = false;
+                    break;
+                case CharacterInfo.Race.Dwarf:
+                    if (newClass == CharacterInfo.Class.Druid ||
+                        newClass == CharacterInfo.Class.Ranger ||
+                        newClass == CharacterInfo.Class.Wizard)
+                        hasClassError = true;
+                    else
+                        hasClassError = false;
+                    break;
+                case CharacterInfo.Race.Elf:
+                    if (newClass == CharacterInfo.Class.Bard)
+                        hasClassError = true;
+                    else
+                        hasClassError = false;
+                    break;
+                case CharacterInfo.Race.Gnome:
+                    if (newClass == CharacterInfo.Class.Bard ||
+                        newClass == CharacterInfo.Class.Druid ||
+                        newClass == CharacterInfo.Class.Ranger)
+                        hasClassError = true;
+                    else
+                        hasClassError = false;
+                    break;
+                case CharacterInfo.Race.Halfling:
+                    if (newClass == CharacterInfo.Class.Cleric ||
+                        newClass == CharacterInfo.Class.Ranger ||
+                        newClass == CharacterInfo.Class.Wizard)
+                        hasClassError = true;
+                    else
+                        hasClassError = false;
+                    break;
+                case CharacterInfo.Race.Human:
+                    hasClassError = false;
+                    break;
+                default:
+                    break;
+            }
+
+            lbl_Class_Error.Visible = hasClassError;
         }
 
         #endregion
@@ -133,37 +186,43 @@ namespace DnDCharacterCreator
         private void btn_STR_Reroll_Click(object sender, EventArgs e)
         {
             currentCharacter.STR = RollDice(3, 6);
-            lbl_STR_roll.Text = currentCharacter.STR.ToString(); ;
+            lbl_STR_roll.Text = currentCharacter.STR.ToString();
+            CheckForRaceError(currentCharacter.charRace);
         }
 
         private void btn_INT_Reroll_Click(object sender, EventArgs e)
         {
             currentCharacter.INT = RollDice(3, 6);
-            lbl_INT_roll.Text = currentCharacter.INT.ToString(); ;
+            lbl_INT_roll.Text = currentCharacter.INT.ToString();
+            CheckForRaceError(currentCharacter.charRace);
         }
 
         private void btn_WIS_Reroll_Click(object sender, EventArgs e)
         {
             currentCharacter.WIS = RollDice(3, 6);
-            lbl_WIS_roll.Text = currentCharacter.WIS.ToString(); ;
+            lbl_WIS_roll.Text = currentCharacter.WIS.ToString();
+            CheckForRaceError(currentCharacter.charRace);
         }
 
         private void btn_DEX_Reroll_Click(object sender, EventArgs e)
         {
             currentCharacter.DEX = RollDice(3, 6);
-            lbl_DEX_roll.Text = currentCharacter.DEX.ToString(); ;
+            lbl_DEX_roll.Text = currentCharacter.DEX.ToString();
+            CheckForRaceError(currentCharacter.charRace);
         }
 
         private void btn_CON_Reroll_Click(object sender, EventArgs e)
         {
             currentCharacter.CON = RollDice(3, 6);
-            lbl_CON_roll.Text = currentCharacter.CON.ToString(); ;
+            lbl_CON_roll.Text = currentCharacter.CON.ToString();
+            CheckForRaceError(currentCharacter.charRace);
         }
 
         private void btn_CHA_Reroll_Click(object sender, EventArgs e)
         {
             currentCharacter.CHA = RollDice(3, 6);
-            lbl_CHA_roll.Text = currentCharacter.CHA.ToString(); ;
+            lbl_CHA_roll.Text = currentCharacter.CHA.ToString();
+            CheckForRaceError(currentCharacter.charRace);
         }
 
         private void btn_HP_Reroll_Click(object sender, EventArgs e)
@@ -244,7 +303,7 @@ namespace DnDCharacterCreator
         {
             CharacterInfo.Race newRace = (CharacterInfo.Race)comboBox_Race.SelectedIndex+1;
 
-            //if Race is the same as old race, no update needed
+            //if Race is the same as old newRace, no update needed
             if (newRace == currentCharacter.charRace)
                 return;
 
@@ -346,13 +405,54 @@ namespace DnDCharacterCreator
                     break;
             }
 
-
+            CheckForRaceError(newRace);
+            CheckForClassError(currentCharacter.charClass);
             currentCharacter.charRace = newRace;
 
         }
 
         private void comboBox_Class_SelectedIndexChanged(object sender, EventArgs e)
         {
+            CharacterInfo.Class newClass = (CharacterInfo.Class)comboBox_Class.SelectedIndex +1;
+
+            switch (newClass)
+            {
+                case CharacterInfo.Class.None:
+                    break;
+                case CharacterInfo.Class.Bard:
+                    lbl_Class_hit_dice_value.Text = "1d6";
+                    lbl_Class_Prime_Stat_Value.Text = "CHA";
+                    break;
+                case CharacterInfo.Class.Cleric:
+                    lbl_Class_hit_dice_value.Text = "1d6";
+                    lbl_Class_Prime_Stat_Value.Text = "WIS";
+                    break;
+                case CharacterInfo.Class.Druid:
+                    lbl_Class_hit_dice_value.Text = "1d6";
+                    lbl_Class_Prime_Stat_Value.Text = "WIS";
+                    break;
+                case CharacterInfo.Class.Fighter:
+                    lbl_Class_hit_dice_value.Text = "1d8";
+                    lbl_Class_Prime_Stat_Value.Text = "STR";
+                    break;
+                case CharacterInfo.Class.Ranger:
+                    lbl_Class_hit_dice_value.Text = "1d8";
+                    lbl_Class_Prime_Stat_Value.Text = "STR";
+                    break;
+                case CharacterInfo.Class.Thief:
+                    lbl_Class_hit_dice_value.Text = "1d4";
+                    lbl_Class_Prime_Stat_Value.Text = "DEX";
+                    break;
+                case CharacterInfo.Class.Wizard:
+                    lbl_Class_hit_dice_value.Text = "1d4";
+                    lbl_Class_Prime_Stat_Value.Text = "INT";
+                    break;
+                default:
+                    break;
+            }
+
+            currentCharacter.charClass = newClass;
+            CheckForClassError(newClass);
 
         }
 

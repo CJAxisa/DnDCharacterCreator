@@ -650,6 +650,14 @@
             // comboBox_Class
             // 
             this.comboBox_Class.FormattingEnabled = true;
+            this.comboBox_Class.Items.AddRange(new object[] {
+            "Bard",
+            "Cleric",
+            "Druid",
+            "Fighter",
+            "Ranger",
+            "Thief",
+            "Wizard"});
             this.comboBox_Class.Location = new System.Drawing.Point(6, 47);
             this.comboBox_Class.Name = "comboBox_Class";
             this.comboBox_Class.Size = new System.Drawing.Size(95, 21);
