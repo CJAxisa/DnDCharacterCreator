@@ -313,6 +313,35 @@ namespace DnDCharacterCreator
         }
         private void btn_Save_Click(object sender, EventArgs e)
         {
+            if(hasRaceError)
+            {
+                MessageBox.Show("Please Resolve your character's Race Error before saving");
+                return;
+            }
+
+            if(hasClassError)
+            {
+                MessageBox.Show("Please Resolve your character's Class Error before saving");
+                return;
+            }
+
+            if(!hasHPBeenRolled)
+            {
+                MessageBox.Show("Roll for Hit points before saving your character! We can't adventure with 0 HP!");
+                return;
+            }
+
+            if(currentCharacter.charRace == CharacterInfo.Race.None)
+            {
+                MessageBox.Show("Please select character race before saving");
+                return;
+            }
+
+            if(currentCharacter.charClass == CharacterInfo.Class.None)
+            {
+                MessageBox.Show("Please select character class before saving");
+                return;
+            }
             Stream myStream;
             SaveFileDialog SFD = new SaveFileDialog();
             SFD.AddExtension = true;
