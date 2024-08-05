@@ -31,6 +31,7 @@ namespace DnDCharacterCreator
             InitializeComponent();
             RNG = new Random();
             currentCharacter = new CharacterInfo();
+            RollDefaultValues();
         }
 
         #region Utility
@@ -40,7 +41,13 @@ namespace DnDCharacterCreator
         /// </summary>
         public void RollDefaultValues()
         {
-            btn_CHA_Reroll.PerformClick();
+            STR_Reroll();
+            INT_Reroll();
+            WIS_Reroll();
+            DEX_Reroll();
+            CON_Reroll();
+            CHA_Reroll();
+            CHA_Reroll();
 
         }
 
@@ -57,7 +64,7 @@ namespace DnDCharacterCreator
             {
                 sum += RNG.Next(1, numSides + 1);
             }
-
+            
             return sum;
         }
 
@@ -185,12 +192,22 @@ namespace DnDCharacterCreator
         }
         private void btn_STR_Reroll_Click(object sender, EventArgs e)
         {
+            STR_Reroll();
+        }
+
+        private void STR_Reroll()
+        {
             currentCharacter.STR = RollDice(3, 6);
             lbl_STR_roll.Text = currentCharacter.STR.ToString();
             CheckForRaceError(currentCharacter.charRace);
         }
 
         private void btn_INT_Reroll_Click(object sender, EventArgs e)
+        {
+            INT_Reroll();
+        }
+
+        private void INT_Reroll()
         {
             currentCharacter.INT = RollDice(3, 6);
             lbl_INT_roll.Text = currentCharacter.INT.ToString();
@@ -199,12 +216,22 @@ namespace DnDCharacterCreator
 
         private void btn_WIS_Reroll_Click(object sender, EventArgs e)
         {
+            WIS_Reroll();
+        }
+
+        private void WIS_Reroll()
+        {
             currentCharacter.WIS = RollDice(3, 6);
             lbl_WIS_roll.Text = currentCharacter.WIS.ToString();
             CheckForRaceError(currentCharacter.charRace);
         }
 
         private void btn_DEX_Reroll_Click(object sender, EventArgs e)
+        {
+            DEX_Reroll();
+        }
+
+        private void DEX_Reroll()
         {
             currentCharacter.DEX = RollDice(3, 6);
             lbl_DEX_roll.Text = currentCharacter.DEX.ToString();
@@ -213,12 +240,22 @@ namespace DnDCharacterCreator
 
         private void btn_CON_Reroll_Click(object sender, EventArgs e)
         {
+            CON_Reroll();
+        }
+
+        private void CON_Reroll()
+        {
             currentCharacter.CON = RollDice(3, 6);
             lbl_CON_roll.Text = currentCharacter.CON.ToString();
             CheckForRaceError(currentCharacter.charRace);
         }
 
         private void btn_CHA_Reroll_Click(object sender, EventArgs e)
+        {
+            CHA_Reroll();
+        }
+
+        private void CHA_Reroll()
         {
             currentCharacter.CHA = RollDice(3, 6);
             lbl_CHA_roll.Text = currentCharacter.CHA.ToString();
