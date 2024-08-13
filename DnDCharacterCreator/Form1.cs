@@ -22,13 +22,18 @@ namespace DnDCharacterCreator
 
         CharacterInfo currentCharacter;
 
-        private bool hasRaceError;
-        private bool hasClassError;
+        public static bool hasRaceError;
+        public static bool hasClassError;
         private bool hasHPBeenRolled = false;
+
+        public static Form1 instance;
 
         #endregion
         public Form1()
         {
+            if (instance == null)
+                instance = this;
+
             InitializeComponent();
             RNG = new Random();
             currentCharacter = new CharacterInfo();
@@ -69,7 +74,7 @@ namespace DnDCharacterCreator
             {
                 sum += RNG.Next(1, numSides + 1);
             }
-            
+
             return sum;
         }
 
@@ -98,11 +103,11 @@ namespace DnDCharacterCreator
             lbl_CON_roll.Text = characterInfo.CON.ToString();
             lbl_CHA_roll.Text = characterInfo.CHA.ToString();
 
-            comboBox_Race.SelectedIndex = (int)characterInfo.charRace-1;
+            //comboBox_Race.SelectedIndex = (int)characterInfo.charRace-1;
             comboBox_Race.Refresh();
             SelectNewRace(characterInfo.charRace);
 
-            comboBox_Class.SelectedIndex = (int)characterInfo.charClass-1;
+            comboBox_Class.SelectedIndex = (int)characterInfo.charClassEnum - 1;
             comboBox_Class.Refresh();
             SelectNewClass(characterInfo.charClass);
 
@@ -116,43 +121,106 @@ namespace DnDCharacterCreator
         }
 
 
+
+        public void ResetRaceLabels()
+        {
+            //currentCharacter.STR_Mod = 0;
+            //currentCharacter.INT_Mod = 0;
+            //currentCharacter.WIS_Mod = 0;
+            //currentCharacter.DEX_Mod = 0;
+            //currentCharacter.CON_Mod = 0;
+            //currentCharacter.CHA_Mod = 0;
+
+            lbl_STR_mod.Text = "0";
+            lbl_INT_mod.Text = "0";
+            lbl_WIS_mod.Text = "0";
+            lbl_DEX_mod.Text = "0";
+            lbl_CON_mod.Text = "0";
+            lbl_CHA_mod.Text = "0";
+
+            lbl_Race_Allowed_Classes.Text = "";
+            lbl_Race_Ability.Text = "";
+            lbl_Race_Modifier.Text = "None";
+            lbl_Race_Minstat.Text = "None";
+        }
+
+        //public void SelectRace(Race race)
+        //{
+        //    lbl_STR_mod.Text = race.STR_Mod.ToString();
+        //    lbl_INT_mod.Text = race.STR_Mod.ToString();
+        //    lbl_WIS_mod.Text = race.STR_Mod.ToString();
+        //    lbl_DEX_mod.Text = race.STR_Mod.ToString();
+        //    lbl_CON_mod.Text = race.STR_Mod.ToString();
+        //    lbl_CHA_mod.Text = race.STR_Mod.ToString();
+
+        //    lbl_Race_Ability.Text = race.ability;
+
+        //    lbl_Race_Allowed_Classes
+
+        //        lbl_rac
+        //}
+
+        public  void ThrowRaceError()
+        {
+            hasRaceError = true;
+            lbl_Race_Error.Visible = true;
+        }
+
+        public  void ResolveRaceError()
+        {
+            hasRaceError = false;
+            lbl_Race_Error.Visible = false;
+        }
+
+        public  void ThrowClassError()
+        {
+            hasClassError = true;
+            lbl_Class_Error.Visible = true;
+        }
+
+        public  void ResolveClassError()
+        {
+            hasClassError = false;
+            lbl_Class_Error.Visible = false;
+        }
+
         /// <summary>
         /// Check if newRace minimum stat condition is met. If not, flag the newRace error bool and make the warning visible
         /// </summary>
         /// <param name="newRace"></param>
-        public void CheckForRaceError(CharacterInfo.Race newRace)
+        public void CheckForRaceError(CharacterInfo.RaceEnum newRace)
         {
             switch (newRace)
             {
-                case CharacterInfo.Race.None:
+                case CharacterInfo.RaceEnum.None:
                     break;
-                case CharacterInfo.Race.Dwarf:
-                    if(currentCharacter.CON + currentCharacter.CON_Mod<9)
+                case CharacterInfo.RaceEnum.Dwarf:
+                    if (currentCharacter.CON + currentCharacter.CON_Mod < 9)
                         hasRaceError = true;
                     else
                         hasRaceError = false;
                     break;
-                case CharacterInfo.Race.Elf:
-                    if(currentCharacter.INT + currentCharacter.INT_Mod<9)
+                case CharacterInfo.RaceEnum.Elf:
+                    if (currentCharacter.INT + currentCharacter.INT_Mod < 9)
                         hasRaceError = true;
                     else
                         hasRaceError = false;
                     break;
-                case CharacterInfo.Race.Gnome:
+                case CharacterInfo.RaceEnum.Gnome:
                     if (currentCharacter.CON + currentCharacter.CON_Mod < 9 ||
                         currentCharacter.INT + currentCharacter.INT_Mod < 9)
                         hasRaceError = true;
                     else
                         hasRaceError = false;
                     break;
-                case CharacterInfo.Race.Halfling:
+                case CharacterInfo.RaceEnum.Halfling:
                     if (currentCharacter.CON + currentCharacter.CON_Mod < 9 ||
                         currentCharacter.DEX + currentCharacter.DEX_Mod < 9)
                         hasRaceError = true;
                     else
                         hasRaceError = false;
                     break;
-                case CharacterInfo.Race.Human:
+                case CharacterInfo.RaceEnum.Human:
                     //no stat min for humans, so they wont ever cause newRace error
                     hasRaceError = false;
                     break;
@@ -169,52 +237,52 @@ namespace DnDCharacterCreator
         /// Make sure character race is allowed to use given class
         /// </summary>
         /// <param name="newClass"></param>
-        public void CheckForClassError(CharacterInfo.Class newClass)
-        {
-            switch (currentCharacter.charRace)
-            {
-                case CharacterInfo.Race.None:
-                    hasClassError = false;
-                    break;
-                case CharacterInfo.Race.Dwarf:
-                    if (newClass == CharacterInfo.Class.Druid ||
-                        newClass == CharacterInfo.Class.Ranger ||
-                        newClass == CharacterInfo.Class.Wizard)
-                        hasClassError = true;
-                    else
-                        hasClassError = false;
-                    break;
-                case CharacterInfo.Race.Elf:
-                    if (newClass == CharacterInfo.Class.Bard)
-                        hasClassError = true;
-                    else
-                        hasClassError = false;
-                    break;
-                case CharacterInfo.Race.Gnome:
-                    if (newClass == CharacterInfo.Class.Bard ||
-                        newClass == CharacterInfo.Class.Druid ||
-                        newClass == CharacterInfo.Class.Ranger)
-                        hasClassError = true;
-                    else
-                        hasClassError = false;
-                    break;
-                case CharacterInfo.Race.Halfling:
-                    if (newClass == CharacterInfo.Class.Cleric ||
-                        newClass == CharacterInfo.Class.Ranger ||
-                        newClass == CharacterInfo.Class.Wizard)
-                        hasClassError = true;
-                    else
-                        hasClassError = false;
-                    break;
-                case CharacterInfo.Race.Human:
-                    hasClassError = false;
-                    break;
-                default:
-                    break;
-            }
+        //public void CheckForClassError(CharacterInfo.ClassEnum newClass)
+        //{
+        //    switch (currentCharacter.charRace)
+        //    {
+        //        case CharacterInfo.RaceEnum.None:
+        //            hasClassError = false;
+        //            break;
+        //        case CharacterInfo.RaceEnum.Dwarf:
+        //            if (newClass == CharacterInfo.ClassEnum.Druid ||
+        //                newClass == CharacterInfo.ClassEnum.Ranger ||
+        //                newClass == CharacterInfo.ClassEnum.Wizard)
+        //                hasClassError = true;
+        //            else
+        //                hasClassError = false;
+        //            break;
+        //        case CharacterInfo.RaceEnum.Elf:
+        //            if (newClass == CharacterInfo.ClassEnum.Bard)
+        //                hasClassError = true;
+        //            else
+        //                hasClassError = false;
+        //            break;
+        //        case CharacterInfo.RaceEnum.Gnome:
+        //            if (newClass == CharacterInfo.ClassEnum.Bard ||
+        //                newClass == CharacterInfo.ClassEnum.Druid ||
+        //                newClass == CharacterInfo.ClassEnum.Ranger)
+        //                hasClassError = true;
+        //            else
+        //                hasClassError = false;
+        //            break;
+        //        case CharacterInfo.RaceEnum.Halfling:
+        //            if (newClass == CharacterInfo.ClassEnum.Cleric ||
+        //                newClass == CharacterInfo.ClassEnum.Ranger ||
+        //                newClass == CharacterInfo.ClassEnum.Wizard)
+        //                hasClassError = true;
+        //            else
+        //                hasClassError = false;
+        //            break;
+        //        case CharacterInfo.RaceEnum.Human:
+        //            hasClassError = false;
+        //            break;
+        //        default:
+        //            break;
+        //    }
 
-            lbl_Class_Error.Visible = hasClassError;
-        }
+        //    lbl_Class_Error.Visible = hasClassError;
+        //}
 
 
         public void ResetHP()
@@ -223,7 +291,7 @@ namespace DnDCharacterCreator
             lbl_HP_roll.Text = "0";
             lbl_Total_HP.Text = "0";
             btn_HP_Reroll.Text = "Roll";
-            hasHPBeenRolled= false;
+            hasHPBeenRolled = false;
         }
 
 
@@ -232,35 +300,36 @@ namespace DnDCharacterCreator
         {
             currentCharacter.STR = RollDice(3, 6);
             lbl_STR_roll.Text = currentCharacter.STR.ToString();
-            CheckForRaceError(currentCharacter.charRace);
+
+            currentCharacter.charRace.Validate(currentCharacter);
         }
 
         private void INT_Reroll()
         {
             currentCharacter.INT = RollDice(3, 6);
             lbl_INT_roll.Text = currentCharacter.INT.ToString();
-            CheckForRaceError(currentCharacter.charRace);
+            currentCharacter.charRace.Validate(currentCharacter);
         }
 
         private void WIS_Reroll()
         {
             currentCharacter.WIS = RollDice(3, 6);
             lbl_WIS_roll.Text = currentCharacter.WIS.ToString();
-            CheckForRaceError(currentCharacter.charRace);
+            currentCharacter.charRace.Validate(currentCharacter);
         }
 
         private void DEX_Reroll()
         {
             currentCharacter.DEX = RollDice(3, 6);
             lbl_DEX_roll.Text = currentCharacter.DEX.ToString();
-            CheckForRaceError(currentCharacter.charRace);
+            currentCharacter.charRace.Validate(currentCharacter);
         }
 
         private void CON_Reroll()
         {
             currentCharacter.CON = RollDice(3, 6);
             lbl_CON_roll.Text = currentCharacter.CON.ToString();
-            CheckForRaceError(currentCharacter.charRace);
+            currentCharacter.charRace.Validate(currentCharacter);
 
             //now we must handle the Constitution modifier as it relates to calculating HP
             if (currentCharacter.CON <= 3)
@@ -288,7 +357,7 @@ namespace DnDCharacterCreator
         {
             currentCharacter.CHA = RollDice(3, 6);
             lbl_CHA_roll.Text = currentCharacter.CHA.ToString();
-            CheckForRaceError(currentCharacter.charRace);
+            currentCharacter.charRace.Validate(currentCharacter);
         }
 
 
@@ -329,192 +398,280 @@ namespace DnDCharacterCreator
         }
 
 
+        public void SelectNewRace(Race newRace)
+        {
+            newRace.Validate(currentCharacter);
+            ResetRaceLabels();
+            lbl_STR_mod.Text = newRace.STR_Mod.ToString();
+            lbl_INT_mod.Text = newRace.INT_Mod.ToString();
+            lbl_WIS_mod.Text = newRace.WIS_Mod.ToString();
+            lbl_DEX_mod.Text = newRace.DEX_Mod.ToString();
+            lbl_CON_mod.Text = newRace.CON_Mod.ToString();
+            lbl_CHA_mod.Text = newRace.CHA_Mod.ToString();
 
-        private void SelectNewRace(CharacterInfo.Race newRace)
+            foreach (string allowedClass in newRace.allowedClasses)
+            {
+                lbl_Race_Allowed_Classes.Text += allowedClass + ", ";
+            }
+            //remove the last ", " from the string
+            lbl_Race_Allowed_Classes.Text.Remove(lbl_Race_Allowed_Classes.Text.Length - 3);
+
+            lbl_Race_Ability.Text = newRace.ability;
+
+            //go through values to update modifier label
+            if (newRace.STR_Mod < 0)
+                lbl_Race_Modifier.Text += newRace.STR_Mod + " STR, ";
+            else if (newRace.STR_Mod > 0)
+                lbl_Race_Modifier.Text += "+"+newRace.STR_Mod + " STR, ";
+
+            if (newRace.INT_Mod < 0)
+                lbl_Race_Modifier.Text += newRace.INT_Mod + " INT, ";
+            else if (newRace.INT_Mod > 0)
+                lbl_Race_Modifier.Text += "+" + newRace.INT_Mod + " INT, ";
+
+            if (newRace.WIS_Mod < 0)
+                lbl_Race_Modifier.Text += newRace.WIS_Mod + " WIS, ";
+            else if (newRace.WIS_Mod > 0)
+                lbl_Race_Modifier.Text += "+" + newRace.WIS_Mod + " WIS, ";
+
+            if (newRace.DEX_Mod < 0)
+                lbl_Race_Modifier.Text += newRace.DEX_Mod + " DEX, ";
+            else if (newRace.DEX_Mod > 0)
+                lbl_Race_Modifier.Text += "+" + newRace.DEX_Mod + " DEX, ";
+
+            if (newRace.CON_Mod < 0)
+                lbl_Race_Modifier.Text += newRace.CON_Mod + " CON, ";
+            else if (newRace.CON_Mod > 0)
+                lbl_Race_Modifier.Text += "+" + newRace.CON_Mod + " CON, ";
+
+
+            if (newRace.CHA_Mod < 0)
+                lbl_Race_Modifier.Text += newRace.CHA_Mod + "CHA, ";
+            else if (newRace.CHA_Mod > 0)
+                lbl_Race_Modifier.Text += "+" + newRace.CHA_Mod + "CHA, ";
+
+
+            lbl_Race_Modifier.Text.Remove(lbl_Race_Modifier.Text.Length - 3);
+
+
+            //GO through each stat value to update text accordingly
+            if (newRace.STR_Min > 0)
+                lbl_Race_Minstat.Text += newRace.STR_Min + " STR, ";
+
+            if (newRace.INT_Min < 0)
+                lbl_Race_Minstat.Text += newRace.INT_Min + " INT, ";            
+
+            if (newRace.WIS_Min < 0)
+                lbl_Race_Minstat.Text += newRace.WIS_Min + " WIS, ";
+            
+            if (newRace.DEX_Min < 0)
+                lbl_Race_Minstat.Text += newRace.DEX_Min + " DEX, ";           
+
+            if (newRace.CON_Min < 0)
+                lbl_Race_Minstat.Text += newRace.CON_Min + " CON, ";            
+
+            if (newRace.CHA_Min < 0)
+                lbl_Race_Minstat.Text += newRace.CHA_Min + "CHA, ";
+
+            lbl_Race_Minstat.Text.Remove(lbl_Race_Minstat.Text.Length - 3);
+
+            //lbl_Race_Minstat.Text = "None";
+
+        }
+
+
+        private void SelectNewRace(CharacterInfo.RaceEnum newRace)
         {
 
-            //if Race is the same as old newRace, no update needed
-            if (newRace == currentCharacter.charRace)
+            //if RaceEnum is the same as old newRace, no update needed
+            if (newRace == currentCharacter.charRaceEnum)
                 return;
 
 
-            //there may be a better a way to refactor this, but im out of time, so oh well
-            switch (newRace)
-            {
-                case CharacterInfo.Race.Dwarf:
-                    lbl_Race_Minstat.Text = "CON 9";
-                    lbl_Race_Modifier.Text = "-1 CHA, +1 CON";
-                    lbl_Race_Ability.Text = "Infravision";
-                    lbl_Race_Allowed_Classes.Text = "Bard, Cleric, Fighter, Thief";
-                    currentCharacter.STR_Mod = 0;
-                    currentCharacter.INT_Mod = 0;
-                    currentCharacter.WIS_Mod = 0;
-                    currentCharacter.DEX_Mod = 0;
-                    currentCharacter.CON_Mod = 1;
-                    currentCharacter.CHA_Mod = -1;
-                    lbl_STR_mod.Text = "0";
-                    lbl_INT_mod.Text = "0";
-                    lbl_WIS_mod.Text = "0";
-                    lbl_DEX_mod.Text = "0";
-                    lbl_CON_mod.Text = "+1";
-                    lbl_CHA_mod.Text = "-1";
+            ////there may be a better a way to refactor this, but im out of time, so oh well
+            //switch (newRace)
+            //{
+            //    case CharacterInfo.RaceEnum.Dwarf:
+            //        lbl_Race_Minstat.Text = "CON 9";
+            //        lbl_Race_Modifier.Text = "-1 CHA, +1 CON";
+            //        lbl_Race_Ability.Text = "Infravision";
+            //        lbl_Race_Allowed_Classes.Text = "Bard, Cleric, Fighter, Thief";
+            //        currentCharacter.STR_Mod = 0;
+            //        currentCharacter.INT_Mod = 0;
+            //        currentCharacter.WIS_Mod = 0;
+            //        currentCharacter.DEX_Mod = 0;
+            //        currentCharacter.CON_Mod = 1;
+            //        currentCharacter.CHA_Mod = -1;
+            //        lbl_STR_mod.Text = "0";
+            //        lbl_INT_mod.Text = "0";
+            //        lbl_WIS_mod.Text = "0";
+            //        lbl_DEX_mod.Text = "0";
+            //        lbl_CON_mod.Text = "+1";
+            //        lbl_CHA_mod.Text = "-1";
 
 
-                    break;
-                case CharacterInfo.Race.Elf:
-                    lbl_Race_Minstat.Text = "INT 9";
-                    lbl_Race_Modifier.Text = "-1 CON, +1 DEX";
-                    lbl_Race_Ability.Text = "Detect Secret Doors";
-                    lbl_Race_Allowed_Classes.Text = "Cleric, Druid, Fighter, Ranger, Thief, Wizard";
-                    currentCharacter.STR_Mod = 0;
-                    currentCharacter.INT_Mod = 0;
-                    currentCharacter.WIS_Mod = 0;
-                    currentCharacter.DEX_Mod = 1;
-                    currentCharacter.CON_Mod = -1;
-                    currentCharacter.CHA_Mod = 0;
-                    lbl_STR_mod.Text = "0";
-                    lbl_INT_mod.Text = "0";
-                    lbl_WIS_mod.Text = "0";
-                    lbl_DEX_mod.Text = "+1";
-                    lbl_CON_mod.Text = "-1";
-                    lbl_CHA_mod.Text = "0";
-                    break;
-                case CharacterInfo.Race.Gnome:
-                    lbl_Race_Minstat.Text = "CON 9, INT 9";
-                    lbl_Race_Modifier.Text = "None";
-                    lbl_Race_Ability.Text = "Defensive Bonus";
-                    lbl_Race_Allowed_Classes.Text = "Cleric, Fighter, Thief, Wizard";
-                    currentCharacter.STR_Mod = 0;
-                    currentCharacter.INT_Mod = 0;
-                    currentCharacter.WIS_Mod = 0;
-                    currentCharacter.DEX_Mod = 0;
-                    currentCharacter.CON_Mod = 0;
-                    currentCharacter.CHA_Mod = 0;
-                    lbl_STR_mod.Text = "0";
-                    lbl_INT_mod.Text = "0";
-                    lbl_WIS_mod.Text = "0";
-                    lbl_DEX_mod.Text = "0";
-                    lbl_CON_mod.Text = "0";
-                    lbl_CHA_mod.Text = "0";
-                    break;
-                case CharacterInfo.Race.Halfling:
-                    lbl_Race_Minstat.Text = "CON 9, DEX 9";
-                    lbl_Race_Modifier.Text = "+1 DEX, -1 STR";
-                    lbl_Race_Ability.Text = "Initiative Bonus";
-                    lbl_Race_Allowed_Classes.Text = "Bard, Druid, Fighter, Thief";
-                    currentCharacter.STR_Mod = -1;
-                    currentCharacter.INT_Mod = 0;
-                    currentCharacter.WIS_Mod = 0;
-                    currentCharacter.DEX_Mod = 1;
-                    currentCharacter.CON_Mod = 0;
-                    currentCharacter.CHA_Mod = 0;
-                    lbl_STR_mod.Text = "-1";
-                    lbl_INT_mod.Text = "0";
-                    lbl_WIS_mod.Text = "0";
-                    lbl_DEX_mod.Text = "+1";
-                    lbl_CON_mod.Text = "0";
-                    lbl_CHA_mod.Text = "0";
-                    break;
-                case CharacterInfo.Race.Human:
-                    lbl_Race_Minstat.Text = "None";
-                    lbl_Race_Modifier.Text = "None";
-                    lbl_Race_Ability.Text = "None";
-                    lbl_Race_Allowed_Classes.Text = "Bard, Cleric, Druid, Fighter, Ranger, Thief, Wizard";
-                    currentCharacter.STR_Mod = 0;
-                    currentCharacter.INT_Mod = 0;
-                    currentCharacter.WIS_Mod = 0;
-                    currentCharacter.DEX_Mod = 0;
-                    currentCharacter.CON_Mod = 0;
-                    currentCharacter.CHA_Mod = 0;
-                    lbl_STR_mod.Text = "0";
-                    lbl_INT_mod.Text = "0";
-                    lbl_WIS_mod.Text = "0";
-                    lbl_DEX_mod.Text = "0";
-                    lbl_CON_mod.Text = "0";
-                    lbl_CHA_mod.Text = "0";
-                    break;
-                default:
-                    break;
-            }
+            //        break;
+            //    case CharacterInfo.RaceEnum.Elf:
+            //        lbl_Race_Minstat.Text = "INT 9";
+            //        lbl_Race_Modifier.Text = "-1 CON, +1 DEX";
+            //        lbl_Race_Ability.Text = "Detect Secret Doors";
+            //        lbl_Race_Allowed_Classes.Text = "Cleric, Druid, Fighter, Ranger, Thief, Wizard";
+            //        currentCharacter.STR_Mod = 0;
+            //        currentCharacter.INT_Mod = 0;
+            //        currentCharacter.WIS_Mod = 0;
+            //        currentCharacter.DEX_Mod = 1;
+            //        currentCharacter.CON_Mod = -1;
+            //        currentCharacter.CHA_Mod = 0;
+            //        lbl_STR_mod.Text = "0";
+            //        lbl_INT_mod.Text = "0";
+            //        lbl_WIS_mod.Text = "0";
+            //        lbl_DEX_mod.Text = "+1";
+            //        lbl_CON_mod.Text = "-1";
+            //        lbl_CHA_mod.Text = "0";
+            //        break;
+            //    case CharacterInfo.RaceEnum.Gnome:
+            //        lbl_Race_Minstat.Text = "CON 9, INT 9";
+            //        lbl_Race_Modifier.Text = "None";
+            //        lbl_Race_Ability.Text = "Defensive Bonus";
+            //        lbl_Race_Allowed_Classes.Text = "Cleric, Fighter, Thief, Wizard";
+            //        currentCharacter.STR_Mod = 0;
+            //        currentCharacter.INT_Mod = 0;
+            //        currentCharacter.WIS_Mod = 0;
+            //        currentCharacter.DEX_Mod = 0;
+            //        currentCharacter.CON_Mod = 0;
+            //        currentCharacter.CHA_Mod = 0;
+            //        lbl_STR_mod.Text = "0";
+            //        lbl_INT_mod.Text = "0";
+            //        lbl_WIS_mod.Text = "0";
+            //        lbl_DEX_mod.Text = "0";
+            //        lbl_CON_mod.Text = "0";
+            //        lbl_CHA_mod.Text = "0";
+            //        break;
+            //    case CharacterInfo.RaceEnum.Halfling:
+            //        lbl_Race_Minstat.Text = "CON 9, DEX 9";
+            //        lbl_Race_Modifier.Text = "+1 DEX, -1 STR";
+            //        lbl_Race_Ability.Text = "Initiative Bonus";
+            //        lbl_Race_Allowed_Classes.Text = "Bard, Druid, Fighter, Thief";
+            //        currentCharacter.STR_Mod = -1;
+            //        currentCharacter.INT_Mod = 0;
+            //        currentCharacter.WIS_Mod = 0;
+            //        currentCharacter.DEX_Mod = 1;
+            //        currentCharacter.CON_Mod = 0;
+            //        currentCharacter.CHA_Mod = 0;
+            //        lbl_STR_mod.Text = "-1";
+            //        lbl_INT_mod.Text = "0";
+            //        lbl_WIS_mod.Text = "0";
+            //        lbl_DEX_mod.Text = "+1";
+            //        lbl_CON_mod.Text = "0";
+            //        lbl_CHA_mod.Text = "0";
+            //        break;
+            //    case CharacterInfo.RaceEnum.Human:
+            //        lbl_Race_Minstat.Text = "None";
+            //        lbl_Race_Modifier.Text = "None";
+            //        lbl_Race_Ability.Text = "None";
+            //        lbl_Race_Allowed_Classes.Text = "Bard, Cleric, Druid, Fighter, Ranger, Thief, Wizard";
+            //        currentCharacter.STR_Mod = 0;
+            //        currentCharacter.INT_Mod = 0;
+            //        currentCharacter.WIS_Mod = 0;
+            //        currentCharacter.DEX_Mod = 0;
+            //        currentCharacter.CON_Mod = 0;
+            //        currentCharacter.CHA_Mod = 0;
+            //        lbl_STR_mod.Text = "0";
+            //        lbl_INT_mod.Text = "0";
+            //        lbl_WIS_mod.Text = "0";
+            //        lbl_DEX_mod.Text = "0";
+            //        lbl_CON_mod.Text = "0";
+            //        lbl_CHA_mod.Text = "0";
+            //        break;
+            //    default:
+            //        break;
+            //}
 
-            //check for race error after modifiers are added to give user more leeway in char creation
-            CheckForRaceError(newRace);
-            currentCharacter.charRace = newRace;
-            CheckForClassError(currentCharacter.charClass);     //must check class after race value is assigned
+            ////check for race error after modifiers are added to give user more leeway in char creation
+            //CheckForRaceError(newRace);
+            //currentCharacter.charRace = newRace;
+            //CheckForClassError(currentCharacter.charClass);     //must check class after race value is assigned
         }
 
 
-        private void SelectNewClass(CharacterInfo.Class newClass)
+        public void SelectNewClass(Class newClass)
         {
-
-            // For each class, update text and check if we need to reset HP due to a new HitDice
-            switch (newClass)
-            {
-                case CharacterInfo.Class.None:
-                    break;
-                case CharacterInfo.Class.Bard:
-                    if (lbl_Class_hit_dice_value.Text != "1d6")
-                    {
-                        lbl_Class_hit_dice_value.Text = "1d6";
-                        ResetHP();
-                    }
-                    lbl_Class_Prime_Stat_Value.Text = "CHA";
-                    break;
-                case CharacterInfo.Class.Cleric:
-                    if (lbl_Class_hit_dice_value.Text != "1d6")
-                    {
-                        lbl_Class_hit_dice_value.Text = "1d6";
-                        ResetHP();
-                    }
-                    lbl_Class_Prime_Stat_Value.Text = "WIS";
-                    break;
-                case CharacterInfo.Class.Druid:
-                    if (lbl_Class_hit_dice_value.Text != "1d6")
-                    {
-                        lbl_Class_hit_dice_value.Text = "1d6";
-                        ResetHP();
-                    }
-                    lbl_Class_Prime_Stat_Value.Text = "WIS";
-                    break;
-                case CharacterInfo.Class.Fighter:
-                    if (lbl_Class_hit_dice_value.Text != "1d8")
-                    {
-                        lbl_Class_hit_dice_value.Text = "1d8";
-                        ResetHP();
-                    }
-                    lbl_Class_Prime_Stat_Value.Text = "STR";
-                    break;
-                case CharacterInfo.Class.Ranger:
-                    if (lbl_Class_hit_dice_value.Text != "1d8")
-                    {
-                        lbl_Class_hit_dice_value.Text = "1d8";
-                        ResetHP();
-                    }
-                    lbl_Class_Prime_Stat_Value.Text = "STR";
-                    break;
-                case CharacterInfo.Class.Thief:
-                    if (lbl_Class_hit_dice_value.Text != "1d4")
-                    {
-                        lbl_Class_hit_dice_value.Text = "1d4";
-                        ResetHP();
-                    }
-                    lbl_Class_Prime_Stat_Value.Text = "DEX";
-                    break;
-                case CharacterInfo.Class.Wizard:
-                    if (lbl_Class_hit_dice_value.Text != "1d4")
-                    {
-                        lbl_Class_hit_dice_value.Text = "1d4";
-                        ResetHP();
-                    }
-                    lbl_Class_Prime_Stat_Value.Text = "INT";
-                    break;
-                default:
-                    break;
-            }
-
-            currentCharacter.charClass = newClass;
-            CheckForClassError(newClass);
+            lbl_Class_hit_dice_value.Text = newClass.numDice.ToString() + "d" + newClass.numDiceFaces.ToString();
+            lbl_Class_Prime_Stat_Value.Text = newClass.primeStat;
+            newClass.Validate(currentCharacter);
         }
+
+        //private void SelectNewClass(CharacterInfo.ClassEnum newClass)
+        //{
+
+        //    // For each class, update text and check if we need to reset HP due to a new HitDice
+        //    switch (newClass)
+        //    {
+        //        case CharacterInfo.ClassEnum.None:
+        //            break;
+        //        case CharacterInfo.ClassEnum.Bard:
+        //            if (lbl_Class_hit_dice_value.Text != "1d6")
+        //            {
+        //                lbl_Class_hit_dice_value.Text = "1d6";
+        //                ResetHP();
+        //            }
+        //            lbl_Class_Prime_Stat_Value.Text = "CHA";
+        //            break;
+        //        case CharacterInfo.ClassEnum.Cleric:
+        //            if (lbl_Class_hit_dice_value.Text != "1d6")
+        //            {
+        //                lbl_Class_hit_dice_value.Text = "1d6";
+        //                ResetHP();
+        //            }
+        //            lbl_Class_Prime_Stat_Value.Text = "WIS";
+        //            break;
+        //        case CharacterInfo.ClassEnum.Druid:
+        //            if (lbl_Class_hit_dice_value.Text != "1d6")
+        //            {
+        //                lbl_Class_hit_dice_value.Text = "1d6";
+        //                ResetHP();
+        //            }
+        //            lbl_Class_Prime_Stat_Value.Text = "WIS";
+        //            break;
+        //        case CharacterInfo.ClassEnum.Fighter:
+        //            if (lbl_Class_hit_dice_value.Text != "1d8")
+        //            {
+        //                lbl_Class_hit_dice_value.Text = "1d8";
+        //                ResetHP();
+        //            }
+        //            lbl_Class_Prime_Stat_Value.Text = "STR";
+        //            break;
+        //        case CharacterInfo.ClassEnum.Ranger:
+        //            if (lbl_Class_hit_dice_value.Text != "1d8")
+        //            {
+        //                lbl_Class_hit_dice_value.Text = "1d8";
+        //                ResetHP();
+        //            }
+        //            lbl_Class_Prime_Stat_Value.Text = "STR";
+        //            break;
+        //        case CharacterInfo.ClassEnum.Thief:
+        //            if (lbl_Class_hit_dice_value.Text != "1d4")
+        //            {
+        //                lbl_Class_hit_dice_value.Text = "1d4";
+        //                ResetHP();
+        //            }
+        //            lbl_Class_Prime_Stat_Value.Text = "DEX";
+        //            break;
+        //        case CharacterInfo.ClassEnum.Wizard:
+        //            if (lbl_Class_hit_dice_value.Text != "1d4")
+        //            {
+        //                lbl_Class_hit_dice_value.Text = "1d4";
+        //                ResetHP();
+        //            }
+        //            lbl_Class_Prime_Stat_Value.Text = "INT";
+        //            break;
+        //        default:
+        //            break;
+        //    }
+
+        //    currentCharacter.charClass = newClass;
+        //    CheckForClassError(newClass);
+        //}
 
 
 
@@ -597,13 +754,13 @@ namespace DnDCharacterCreator
                 return;
             }
 
-            if(currentCharacter.charRace == CharacterInfo.Race.None)
+            if(currentCharacter.charRace == null)
             {
                 MessageBox.Show("Please select character race before saving");
                 return;
             }
 
-            if(currentCharacter.charClass == CharacterInfo.Class.None)
+            if(currentCharacter.charClass == null)
             {
                 MessageBox.Show("Please select character class before saving");
                 return;
@@ -659,21 +816,84 @@ namespace DnDCharacterCreator
 
         private void comboBox_Race_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CharacterInfo.Race newRace = (CharacterInfo.Race)comboBox_Race.SelectedIndex + 1;
-            SelectNewRace(newRace);
+            CharacterInfo.RaceEnum newRace = (CharacterInfo.RaceEnum)comboBox_Race.SelectedIndex + 1;
+            switch (newRace)
+            {
+                case CharacterInfo.RaceEnum.None:
+                    currentCharacter.charRace = null;
+                    ResetRaceLabels();
+                    break;
+                case CharacterInfo.RaceEnum.Dwarf:
+                    currentCharacter.charRace = new Dwarf();
+                    break;
+                case CharacterInfo.RaceEnum.Elf:
+                    currentCharacter.charRace = new Elf();
+                    break;
+                case CharacterInfo.RaceEnum.Gnome:
+                    currentCharacter.charRace = new Gnome();
+                    break;
+                case CharacterInfo.RaceEnum.Halfling:
+                    currentCharacter.charRace = new Halfling();
+                    break;
+                case CharacterInfo.RaceEnum.Human:
+                    currentCharacter.charRace = new Human();
+                    break;
+                default:
+                    break;
+            }
+            currentCharacter.charRace.Validate(currentCharacter);
 
+            //update labels with new values
+            SelectNewRace(currentCharacter.charRace);
+            //SelectNewRace(newRace);
+            currentCharacter.charClass.Validate(currentCharacter);
         }
 
 
 
         private void comboBox_Class_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CharacterInfo.Class newClass = (CharacterInfo.Class)comboBox_Class.SelectedIndex + 1;
+            CharacterInfo.ClassEnum newClass = (CharacterInfo.ClassEnum)comboBox_Class.SelectedIndex + 1;
 
-            SelectNewClass(newClass);
+            switch (newClass)
+            {
+                case CharacterInfo.ClassEnum.None:
+                    currentCharacter.charClass = new Class();
+                    break;
+                case CharacterInfo.ClassEnum.Bard:
+                    currentCharacter.charClass = new Bard();
+                    break;
+                case CharacterInfo.ClassEnum.Cleric:
+                    currentCharacter.charClass = new Cleric();
+                    break;
+                case CharacterInfo.ClassEnum.Druid:
+                    currentCharacter.charClass = new Druid();
+                    break;
+                case CharacterInfo.ClassEnum.Fighter:
+                    currentCharacter.charClass = new Fighter();
+                    break;
+                case CharacterInfo.ClassEnum.Ranger:
+                    currentCharacter.charClass = new Ranger();
+                    break;
+                case CharacterInfo.ClassEnum.Thief:
+                    currentCharacter.charClass = new Thief();
+                    break;
+                case CharacterInfo.ClassEnum.Wizard:
+                    currentCharacter.charClass = new Wizard();
+                    break;
+                default:
+                    break;
+            }
+            currentCharacter.charClass.Validate(currentCharacter);
+            SelectNewClass(currentCharacter.charClass);
 
         }
 
         #endregion
+
+        private void lbl_WIS_mod_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

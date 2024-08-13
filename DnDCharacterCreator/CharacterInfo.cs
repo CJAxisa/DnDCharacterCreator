@@ -27,17 +27,19 @@ namespace DnDCharacterCreator
 
         public int CON_HP_MOD { get; set; }
 
+        public Race charRace;
+        public Class charClass;
 
-        public Race charRace { get; set; }
+        public RaceEnum charRaceEnum { get; set; }
 
-        public Class charClass { get; set; }
+        public ClassEnum charClassEnum { get; set; }
 
         public int HitPoints { get; set; }
         public int StartingGold { get; set; }
 
 
-        //Enums for Race and class will allow light storage and easy conversions
-        public enum Race
+        //Enums for RaceEnum and class will allow light storage and easy conversions
+        public enum RaceEnum
         {
             None = 0,
             Dwarf = 1,
@@ -47,7 +49,7 @@ namespace DnDCharacterCreator
             Human = 5
         }
 
-        public enum Class
+        public enum ClassEnum
         {
             None = 0,
             Bard = 1,
@@ -59,7 +61,11 @@ namespace DnDCharacterCreator
             Wizard = 7
         }
 
-        public CharacterInfo() { }
+        public CharacterInfo() 
+        {
+            charRace = new Race();
+            charClass = new Class();
+        }
 
 
         //alt constructor for JSON data
